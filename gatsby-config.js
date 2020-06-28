@@ -15,7 +15,8 @@ try {
         },
     }
 } finally {
-    const { apiUrl, contentApiKey } = process.env.NODE_ENV === `development` ? ghostConfig.development : ghostConfig.production
+    const {apiUrl, contentApiKey} =
+        process.env.NODE_ENV === `development` ? ghostConfig.development : ghostConfig.production
 
     if (!apiUrl || !contentApiKey || contentApiKey.match(/<key>/)) {
         throw new Error(`GHOST_API_URL and GHOST_CONTENT_API_KEY are required to build. Check the README.`) // eslint-disable-line
@@ -23,15 +24,22 @@ try {
 }
 
 /**
-* This is the place where you can tell Gatsby which plugins to use
-* and set them up the way you want.
-*
-* Further info 👉🏼 https://www.gatsbyjs.org/docs/gatsby-config/
-*
-*/
+ * This is the place where you can tell Gatsby which plugins to use
+ * and set them up the way you want.
+ *
+ * Further info 👉🏼 https://www.gatsbyjs.org/docs/gatsby-config/
+ *
+ */
 module.exports = {
     siteMetadata: {
         siteUrl: config.siteUrl,
+        author: {
+            name: `Riley Johnson`,
+            email: `rj@therileyjohnson.com`,
+        },
+        social: {
+            github: `https://github.com/the-rileyj`,
+        },
     },
     plugins: [
         /**
@@ -53,18 +61,45 @@ module.exports = {
                 name: `images`,
             },
         },
+        {
+            resolve: `gatsby-plugin-canonical-urls`,
+            options: {
+                siteUrl: `https://therileyjohnson.com`,
+            },
+        },
         `gatsby-plugin-sharp`,
         `gatsby-transformer-sharp`,
         {
             resolve: `gatsby-source-ghost`,
-            options:
-                process.env.NODE_ENV === `development`
-                    ? ghostConfig.development
-                    : ghostConfig.production,
+            options: process.env.NODE_ENV === `development` ? ghostConfig.development : ghostConfig.production,
         },
         /**
          *  Utility Plugins
          */
+        {
+            // Markdown Reference: https://www.markdownguide.org/basic-syntax
+            resolve: `gatsby-transformer-remark`,
+            options: {
+                plugins: [
+                    {
+                        resolve: `gatsby-remark-images`,
+                        options: {
+                            maxWidth: 1280,
+                        },
+                    },
+                    {
+                        resolve: `gatsby-remark-responsive-iframe`,
+                        options: {
+                            wrapperStyle: `margin-bottom: 1.0725rem`,
+                        },
+                    },
+                    `gatsby-remark-autolink-headers`,
+                    `gatsby-remark-prismjs`,
+                    `gatsby-remark-copy-linked-files`,
+                    `gatsby-remark-smartypants`,
+                ],
+            },
+        },
         {
             resolve: `gatsby-plugin-ghost-manifest`,
             options: {
@@ -90,6 +125,12 @@ module.exports = {
             },
         },
         {
+            resolve: `gatsby-plugin-google-analytics`,
+            options: {
+                trackingId: `UA-171089496-1`,
+            },
+        },
+        {
             resolve: `gatsby-plugin-feed`,
             options: {
                 query: `
@@ -104,9 +145,7 @@ module.exports = {
                     }
                 }
               `,
-                feeds: [
-                    generateRSSFeed(config),
-                ],
+                feeds: [generateRSSFeed(config)],
             },
         },
         {
@@ -169,19 +208,16 @@ module.exports = {
                         sitemap: `pages`,
                     },
                 },
-                exclude: [
-                    `/dev-404-page`,
-                    `/404`,
-                    `/404.html`,
-                    `/offline-plugin-app-shell-fallback`,
-                ],
+                exclude: [`/dev-404-page`, `/404`, `/404.html`, `/offline-plugin-app-shell-fallback`],
                 createLinkInHead: true,
                 addUncaughtPages: true,
             },
         },
         `gatsby-plugin-catch-links`,
         `gatsby-plugin-react-helmet`,
+        `gatsby-plugin-typescript`,
         `gatsby-plugin-force-trailing-slashes`,
         `gatsby-plugin-offline`,
+        `gatsby-plugin-styled-components`,
     ],
 }

@@ -10,7 +10,6 @@ A starter template to build lightning fast websites with [Ghost](https://ghost.o
 
 &nbsp;
 
-
 # Installing
 
 ```bash
@@ -53,6 +52,7 @@ To use this starter without issues, your Ghost installation needs to be at least
 The default Ghost version that is used for this starter is `3.x`. If your Ghost installation is on a lower version, you will need to pass in a `version` property in your `.ghost.json` settings:
 
 **Ghost >=2.10.0 <3.0.0**
+
 ```json
 {
     "apiUrl": "https://gatsby.ghost.io",
@@ -62,6 +62,7 @@ The default Ghost version that is used for this starter is `3.x`. If your Ghost 
 ```
 
 **Ghost <=3.0.0**
+
 ```json
 {
     "apiUrl": "https://gatsby.ghost.io",
@@ -108,3 +109,11 @@ Gatsby `develop` uses the `development` config in `.ghost.json` - while Gatsby `
 # Copyright & License
 
 Copyright (c) 2013-2020 Ghost Foundation - Released under the [MIT license](LICENSE).
+
+## Setup
+
+0. Clone https://github.com/clean-docker/ghost-cms, change NGINX routes to try_files before caching to prevent premature 404s
+
+1. Change values in ~/.ghost.json to correct dev/prod host and key
+
+2. Add typescript: https://jeffrafter.com/gatsby-with-typescript/

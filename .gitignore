@@ -73,3 +73,12 @@ typings/
 public
 yarn-error.log
 .netlify/
+
+# Docker Volumes
+
+content/
+mysql/
+
+# Secrets
+
+secrets/
