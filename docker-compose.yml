@@ -1,0 +1,22 @@
+version: "3.5"
+
+x-hong-kong:
+  buildInfo:
+    - dockerfile: "dockerfile"
+      name: "rj-site"
+  projectRoutes:
+    - route: "/"
+      forwardHost: "http://rj-site"
+
+services:
+  rj-site:
+    image: therileyjohnson/rj-site-novel_rj-site:latest
+    expose:
+      - 80
+    restart: always
+    networks:
+      - rjnet
+
+networks:
+  rjnet:
+    name: RJnet
