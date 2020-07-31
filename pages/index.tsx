@@ -12,6 +12,7 @@ const IndexPage = () => (
         squared away.
       </span>{" "}
       sike, CD is working, expect changes this coming weekend.
+      <span>This is my website jaryd.</span>
     </p>
     <p>
       <Link href="/about">
