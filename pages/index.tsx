@@ -7,7 +7,7 @@ const IndexPage = () => (
     <p>If you're seeing this, I'm sorry.</p>
     <p>
       I'm working on a CD system for the back-end, so for the time being you'll
-      have to look at this mess until that's squared away. ~3
+      have to look at this mess until that's squared away. ~4
     </p>
     <p>
       <Link href="/about">
