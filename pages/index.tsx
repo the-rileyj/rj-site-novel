@@ -11,8 +11,8 @@ const IndexPage = () => (
         so for the time being you'll have to look at this mess until that's
         squared away.
       </span>{" "}
-      sike, CD is working, expect changes this coming weekend.
-      <span>This is my website jaryd.</span>
+      sike, CD is working, expect changes this coming weekend.{" "}
+      <span>This is my website jaryd, isn't that cool?.</span>
     </p>
     <p>
       <Link href="/about">
