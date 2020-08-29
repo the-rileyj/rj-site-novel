@@ -10,8 +10,10 @@
 # production
 /build
 
-# misc
+# local files
 *.pem
+content/
+mysql/
 
 # debug
 npm-debug.log*
@@ -20,4 +22,4 @@ yarn-error.log*
 
 # secrets
 secrets/
-.env*
+*.env
