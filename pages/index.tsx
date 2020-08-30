@@ -6,12 +6,7 @@ const IndexPage = () => (
     <h1>Hello RJ's New Site 👋</h1>
     <p>If you're seeing this, I'm sorry.</p>
     <p>
-      I'm working on a CD system for the back-end,{" "}
-      <span style={{ textDecoration: "line-through" }}>
-        so for the time being you'll have to look at this mess until that's
-        squared away.
-      </span>{" "}
-      sike, CD is working, expect changes this coming weekend.
+      Done working out server-side kinks for the most part :)
     </p>
     <p>
       <Link href="/about">
