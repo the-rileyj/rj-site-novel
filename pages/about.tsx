@@ -4,7 +4,11 @@ import Layout from "../components/Layout";
 const AboutPage = () => (
   <Layout title="About | Next.js + TypeScript Example">
     <h1>About</h1>
-    <p>This is the about for RJ's site</p>
+    <p>This is the about page for RJ's site</p>
+    <p>
+      You'll have to wait until I'm feeling awfully self indulgent for this to
+      be updated
+    </p>
     <p>
       <Link href="/">
         <a>Go home</a>
