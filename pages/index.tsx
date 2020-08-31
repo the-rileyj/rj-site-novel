@@ -7,6 +7,13 @@ const IndexPage = () => (
     <p>If you're seeing this, I'm sorry.</p>
     <p>Done working out server-side kinks for the most part :)</p>
     <p>
+      All my time has been spent upgrading the server-side, and it looks like it
+      might be that way for a little bit.
+    </p>
+    <p>
+      What I'm trying to say is that this won't look pretty for a little bit.
+    </p>
+    <p>
       <Link href="/about">
         <a>About</a>
       </Link>
