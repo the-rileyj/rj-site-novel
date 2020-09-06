@@ -5,15 +5,27 @@ x-hong-kong:
     - dockerfile: "front-end/dockerfile"
       name: "rj-site"
       context: "front-end"
+    - dockerfile: "back-end/dockerfile"
+      name: "rj-site-back-end"
+      context: "back-end"
   projectRoutes:
     - route: "/"
       forwardHost: "http://rj-site"
+    - route: "/api"
+      forwardHost: "http://rj-site-back-end"
     - route: "/cms"
       forwardHost: "http://ghost:2368"
 
 services:
   rj-site:
     image: therileyjohnson/rj-site-novel_rj-site:latest
+    restart: always
+    env_file:
+      - prod.env
+    networks:
+      - rjnet
+  rj-site-back-end:
+    image: therileyjohnson/rj-site-novel_rj-site-back-end:latest
     restart: always
     env_file:
       - prod.env

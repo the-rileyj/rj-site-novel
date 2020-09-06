@@ -12,11 +12,20 @@ x-hong-kong:
 services:
   rj-site:
     restart: always
-    build: .
+    build: front-end
     env_file:
       - dev.env
     ports:
       - 9910:80
+    networks:
+      - rjnet
+  rj-site-back-end:
+    restart: always
+    build: back-end
+    env_file:
+      - dev.env
+    ports:
+      - 9911:80
     networks:
       - rjnet
   ghost-db:

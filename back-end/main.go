@@ -13,5 +13,5 @@ func main() {
 		c.Writer.Write([]byte("rj-site-novel/back-end"))
 	})
 
-	router.Run(":9999")
+	router.Run(":80")
 }
