@@ -7,5 +7,11 @@ import (
 func main() {
 	router := gin.Default()
 
+	apiGroup := router.Group("/api")
+
+	apiGroup.GET("/", func(c *gin.Context) {
+		c.Writer.Write([]byte("rj-site-novel/back-end"))
+	})
+
 	router.Run(":9999")
 }
