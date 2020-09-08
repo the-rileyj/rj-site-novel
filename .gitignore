@@ -1,17 +1,17 @@
 # dependencies
-/node_modules
+**/node_modules
 
 # testing
 /coverage
 
 # next.js
-/.next/
+**/.next/
 
 # production
-/build
+**/build
 
 # local files
-*.pem
+**/*.pem
 content/
 mysql/
 
@@ -21,5 +21,5 @@ yarn-debug.log*
 yarn-error.log*
 
 # secrets
-secrets/
-*.env
+**/secrets/
+**/*.env

@@ -1,0 +1,77 @@
+import React, {
+  createContext,
+  CSSProperties,
+  useContext,
+  useReducer,
+} from "react";
+import Cookies from "js-cookie";
+
+import { createMuiTheme, responsiveFontSizes } from "@material-ui/core/styles";
+import teal from "@material-ui/core/colors/teal";
+import { ThemeOptions, Theme } from "@material-ui/core/styles/createMuiTheme";
+import { ThemeProvider } from "@material-ui/styles";
+
+interface IContextProps {
+  theme: Theme;
+  dispatch: React.Dispatch<string>;
+}
+
+// const savedTheme = Cookies.get("theme");
+
+// let realTheme = "light";
+
+// if (savedTheme !== undefined && savedTheme !== "light") realTheme = "dark";
+
+const realTheme = "dark";
+
+const ThemeContext = createContext({} as IContextProps);
+
+const getTheme = (theme: string) =>
+  responsiveFontSizes(
+    createMuiTheme({
+      palette: {
+        primary: {
+          main: "#902020",
+          light: "#c65148",
+          dark: "#5c0000",
+        },
+        secondary: {
+          main: "#fafafa",
+          light: "#ffffff",
+          dark: "#c7c7c7",
+        },
+        // grey: "#484848",
+        background: {
+          default: "#212121",
+          paper: "#5c0000",
+        },
+        // type: theme === "light" ? "light" : "dark",
+        type: "dark",
+      },
+    } as ThemeOptions)
+  );
+
+const ThemeContextReducer = (state: Theme, action: string): Theme => {
+  Cookies.set("theme", action);
+
+  return getTheme(action);
+};
+
+const ThemeContextProvider: React.FC = (props: any) => {
+  const [theme, dispatch] = React.useReducer(
+    ThemeContextReducer,
+    getTheme(realTheme)
+  );
+
+  return (
+    <ThemeContext.Provider value={{ theme, dispatch }}>
+      <ThemeProvider theme={theme}>{props.children}</ThemeProvider>
+    </ThemeContext.Provider>
+  );
+};
+
+const ThemeContextConsumer = ThemeContext.Consumer;
+
+const useThemeContext = () => useContext(ThemeContext);
+
+export { useThemeContext, ThemeContextProvider, ThemeContextConsumer };

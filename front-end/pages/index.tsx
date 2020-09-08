@@ -1,24 +1,45 @@
 import Link from "next/link";
 import Layout from "../components/Layout";
+import { Theme, makeStyles, Paper } from "@material-ui/core";
 
-const IndexPage = () => (
-  <Layout title="Home | Next.js + TypeScript Example">
-    <h1>Hello RJ's New Site 👋</h1>
-    <p>If you're seeing this, I'm sorry.</p>
-    <p>Done working out server-side kinks for the most part :)</p>
-    <p>
-      All my time has been spent upgrading the server-side, and it looks like it
-      might be that way for a little bit.
-    </p>
-    <p>
-      What I'm trying to say is that this won't look pretty for a little bit.
-    </p>
-    <p>
-      <Link href="/about">
-        <a>About</a>
-      </Link>
-    </p>
-  </Layout>
-);
+const useIndexStyles = makeStyles((theme: Theme) => ({
+  headerContainer: {
+    alignItems: "center",
+    backgroundColor: theme.palette.grey[800],
+    borderBottom: theme.palette.secondary.main,
+    color: theme.palette.secondary.main,
+    display: "flex",
+    flexDirection: "column",
+    fontSize: "5rem",
+    height: "calc(100vh - 5rem)",
+    justifyContent: "center",
+    width: "100%",
+  },
+  header: {
+    alignItems: "center",
+    border: `3px solid ${theme.palette.secondary.main}`,
+    color: theme.palette.secondary.main,
+    display: "flex",
+    flexDirection: "column",
+    fontSize: "5rem",
+    justifyContent: "center",
+    padding: "1rem",
+  },
+}));
+
+const IndexPage = () => {
+  const styles = useIndexStyles();
+
+  return (
+    <Layout contentPadding={false}>
+      <div className={styles.headerContainer}>
+        <Paper className={styles.header} elevation={12}>
+          <div>Welcome to</div>
+          <div>RJ's Site</div>
+        </Paper>
+      </div>
+    </Layout>
+  );
+};
 
 export default IndexPage;

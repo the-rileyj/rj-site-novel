@@ -5,6 +5,8 @@ import Head from "next/head";
 
 import CssBaseline from "@material-ui/core/CssBaseline";
 
+import { ThemeContextProvider } from "../components/Theme/ThemeContext";
+
 const app = ({ Component, pageProps }: AppProps) => {
   return (
     <>
@@ -21,9 +23,12 @@ const app = ({ Component, pageProps }: AppProps) => {
           name="viewport"
           content="minimum-scale=1, initial-scale=1, width=device-width"
         />
+        <link rel="icon" type="image/x-icon" href="/favicon.ico" />
       </Head>
       <CssBaseline />
-      <Component {...pageProps} />
+      <ThemeContextProvider>
+        <Component {...pageProps} />
+      </ThemeContextProvider>
     </>
   );
 };
