@@ -1,13 +1,7 @@
-import React, {
-  createContext,
-  CSSProperties,
-  useContext,
-  useReducer,
-} from "react";
+import React, { createContext, useContext } from "react";
 import Cookies from "js-cookie";
 
 import { createMuiTheme, responsiveFontSizes } from "@material-ui/core/styles";
-import teal from "@material-ui/core/colors/teal";
 import { ThemeOptions, Theme } from "@material-ui/core/styles/createMuiTheme";
 import { ThemeProvider } from "@material-ui/styles";
 
@@ -22,11 +16,11 @@ interface IContextProps {
 
 // if (savedTheme !== undefined && savedTheme !== "light") realTheme = "dark";
 
-const realTheme = "dark";
+// const realTheme = "dark";
 
 const ThemeContext = createContext({} as IContextProps);
 
-const getTheme = (theme: string) =>
+const getTheme = () =>
   responsiveFontSizes(
     createMuiTheme({
       palette: {
@@ -51,16 +45,18 @@ const getTheme = (theme: string) =>
     } as ThemeOptions)
   );
 
-const ThemeContextReducer = (state: Theme, action: string): Theme => {
+const ThemeContextReducer = (_: Theme, action: string): Theme => {
   Cookies.set("theme", action);
 
-  return getTheme(action);
+  //   return getTheme(action);
+  return getTheme();
 };
 
 const ThemeContextProvider: React.FC = (props: any) => {
   const [theme, dispatch] = React.useReducer(
     ThemeContextReducer,
-    getTheme(realTheme)
+    // getTheme(realTheme)
+    getTheme()
   );
 
   return (

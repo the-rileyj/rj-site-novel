@@ -25,7 +25,7 @@ services:
     env_file:
       - dev.env
     ports:
-      - 9911:80
+      - 9912:80
     networks:
       - rjnet
   ghost-db:

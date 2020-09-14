@@ -1,9 +1,9 @@
-import Link from "next/link";
+// import Link from "next/link";
 import Layout from "../components/Layout";
 import { Theme, makeStyles, Paper, Card } from "@material-ui/core";
 
-import { Canvas, useFrame } from "react-three-fiber";
-import { useRef, useState, Props } from "react";
+// import { Canvas, useFrame } from "react-three-fiber";
+// import { useRef, useState, Props } from "react";
 
 import classNames from "classnames";
 
