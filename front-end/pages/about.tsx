@@ -19,7 +19,8 @@ const AboutPage = () => (
     <p>
       I'm still working on the site actively, don't have a good mold yet. This
       page will be updated last. It will be updated as I need to force pushes
-      for my CD system to update.
+      for my CD system to update. This number "1" will be incremented to that
+      end.
     </p>
     <p>
       <Link href="/">
