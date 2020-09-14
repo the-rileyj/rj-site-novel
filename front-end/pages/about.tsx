@@ -6,8 +6,20 @@ const AboutPage = () => (
     <h1>About</h1>
     <p>This is the about page for RJ's site</p>
     <p>
-      You'll have to wait until I'm feeling awfully self indulgent for this to
-      be updated
+      For now you can take a look at{" "}
+      <a
+        href="https://www.linkedin.com/in/therileyjohnson/"
+        target="_blank"
+        rel="noreferrer"
+      >
+        my linkedin
+      </a>
+      .
+    </p>
+    <p>
+      I'm still working on the site actively, don't have a good mold yet. This
+      page will be updated last. It will be updated as I need to force pushes
+      for my CD system to update.
     </p>
     <p>
       <Link href="/">
