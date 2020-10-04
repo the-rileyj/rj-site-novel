@@ -23,3 +23,6 @@ yarn-error.log*
 # secrets
 **/secrets/
 **/*.env
+
+# local dev files
+scratch/

@@ -18,32 +18,31 @@ interface IContextProps {
 
 // const realTheme = "dark";
 
+export const AppTheme = createMuiTheme({
+  palette: {
+    primary: {
+      main: "#902020",
+      light: "#c65148",
+      dark: "#5c0000",
+    },
+    secondary: {
+      main: "#fafafa",
+      light: "#ffffff",
+      dark: "#c7c7c7",
+    },
+    // grey: "#484848",
+    background: {
+      default: "#212121",
+      paper: "#5c0000",
+    },
+    // type: theme === "light" ? "light" : "dark",
+    type: "dark",
+  },
+} as ThemeOptions);
+
 const ThemeContext = createContext({} as IContextProps);
 
-const getTheme = () =>
-  responsiveFontSizes(
-    createMuiTheme({
-      palette: {
-        primary: {
-          main: "#902020",
-          light: "#c65148",
-          dark: "#5c0000",
-        },
-        secondary: {
-          main: "#fafafa",
-          light: "#ffffff",
-          dark: "#c7c7c7",
-        },
-        // grey: "#484848",
-        background: {
-          default: "#212121",
-          paper: "#5c0000",
-        },
-        // type: theme === "light" ? "light" : "dark",
-        type: "dark",
-      },
-    } as ThemeOptions)
-  );
+const getTheme = () => responsiveFontSizes(AppTheme);
 
 const ThemeContextReducer = (_: Theme, action: string): Theme => {
   Cookies.set("theme", action);
@@ -53,11 +52,7 @@ const ThemeContextReducer = (_: Theme, action: string): Theme => {
 };
 
 const ThemeContextProvider: React.FC = (props: any) => {
-  const [theme, dispatch] = React.useReducer(
-    ThemeContextReducer,
-    // getTheme(realTheme)
-    getTheme()
-  );
+  const [theme, dispatch] = React.useReducer(ThemeContextReducer, getTheme());
 
   return (
     <ThemeContext.Provider value={{ theme, dispatch }}>

@@ -8,25 +8,25 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import { ThemeContextProvider } from "../components/Theme/ThemeContext";
 
 const app = ({ Component, pageProps }: AppProps) => {
+  React.useEffect(() => {
+    // Remove the server-side injected CSS.
+    const jssStyles = document.querySelector("#jss-server-side");
+
+    if (jssStyles) {
+      jssStyles?.parentElement?.removeChild(jssStyles);
+    }
+  }, []);
+
   return (
     <>
       <Head>
-        <link
-          rel="stylesheet"
-          href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
-        />
-        <link
-          rel="stylesheet"
-          href="https://fonts.googleapis.com/icon?family=Material+Icons"
-        />
         <meta
           name="viewport"
           content="minimum-scale=1, initial-scale=1, width=device-width"
         />
-        <link rel="icon" type="image/x-icon" href="/favicon.ico" />
       </Head>
-      <CssBaseline />
       <ThemeContextProvider>
+        <CssBaseline />
         <Component {...pageProps} />
       </ThemeContextProvider>
     </>
