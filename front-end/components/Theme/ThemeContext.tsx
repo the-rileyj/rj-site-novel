@@ -51,7 +51,13 @@ const ThemeContextReducer = (_: Theme, action: string): Theme => {
   return getTheme();
 };
 
-const ThemeContextProvider: React.FC = (props: any) => {
+interface IThemeContextProviderProps {
+  children: React.ReactNode;
+}
+
+const ThemeContextProvider: React.FC<IThemeContextProviderProps> = (
+  props: IThemeContextProviderProps
+) => {
   const [theme, dispatch] = React.useReducer(ThemeContextReducer, getTheme());
 
   return (

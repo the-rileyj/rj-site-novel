@@ -1,6 +1,6 @@
 import Layout from "../components/Layout";
 import GlitchText from "../components/GlitchText";
-import { Theme, makeStyles, Paper, Card } from "@material-ui/core";
+import { Theme, makeStyles, Paper } from "@material-ui/core";
 
 import classNames from "classnames";
 
@@ -79,37 +79,37 @@ const Chyron: React.FC<IChyronProps> = (props: IChyronProps) => {
   );
 };
 
-const useOfferingsContainerStyles = makeStyles((theme: Theme) => ({
-  cardContainer: {
-    border: `3px solid ${theme.palette.secondary.main}`,
-  },
-  titleContainer: {
-    backgroundColor: theme.palette.primary.light,
-    borderBottom: `1px solid ${theme.palette.secondary.main}`,
-    padding: "1rem",
-  },
-  contentContainer: {
-    padding: "1rem",
-  },
-}));
+// const useOfferingsContainerStyles = makeStyles((theme: Theme) => ({
+//   cardContainer: {
+//     border: `3px solid ${theme.palette.secondary.main}`,
+//   },
+//   titleContainer: {
+//     backgroundColor: theme.palette.primary.light,
+//     borderBottom: `1px solid ${theme.palette.secondary.main}`,
+//     padding: "1rem",
+//   },
+//   contentContainer: {
+//     padding: "1rem",
+//   },
+// }));
 
-interface IOfferingsContainerProps {
-  children: React.ReactNode;
-  title: string;
-}
+// interface IOfferingsContainerProps {
+//   children: React.ReactNode;
+//   title: string;
+// }
 
-const OfferingsCard: React.FC<IOfferingsContainerProps> = (
-  props: IOfferingsContainerProps
-) => {
-  const styles = useOfferingsContainerStyles();
+// const OfferingsCard: React.FC<IOfferingsContainerProps> = (
+//   props: IOfferingsContainerProps
+// ) => {
+//   const styles = useOfferingsContainerStyles();
 
-  return (
-    <Card className={styles.cardContainer}>
-      <div className={styles.titleContainer}>{props.title}</div>
-      <div className={styles.contentContainer}>{props.children}</div>
-    </Card>
-  );
-};
+//   return (
+//     <Card className={styles.cardContainer}>
+//       <div className={styles.titleContainer}>{props.title}</div>
+//       <div className={styles.contentContainer}>{props.children}</div>
+//     </Card>
+//   );
+// };
 
 const useIndexStyles = makeStyles((theme: Theme) => ({
   headerContainer: {

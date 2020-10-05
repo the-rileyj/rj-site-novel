@@ -1,4 +1,4 @@
-import { makeStyles, Theme, StyleRules } from "@material-ui/core";
+import { makeStyles, Theme } from "@material-ui/core";
 
 // Thank you to https://codemyui.com/pure-css-text-glitch-and-twerk/
 
