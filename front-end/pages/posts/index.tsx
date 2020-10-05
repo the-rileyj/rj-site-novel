@@ -7,6 +7,7 @@ import Layout from "../../components/Layout";
 import { getPosts } from "../api/ghost/posts";
 import { PostsOrPages } from "@tryghost/content-api";
 import Link from "next/link";
+import GlitchText from "../../components/GlitchText";
 
 type Props = {
   posts: PostsOrPages | null;
@@ -14,8 +15,10 @@ type Props = {
 };
 
 const BlogIndex = (props: Props) => (
-  <Layout title="Blog Home">
-    <h1>Posts:</h1>
+  <Layout title="Blog Home | RJ's Site">
+    <div style={{ fontSize: "28px" }}>
+      <GlitchText text="Posts:" />
+    </div>
     <ul>
       {props.posts === null ? (
         <div>Website is updating with posts!</div>

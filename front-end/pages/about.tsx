@@ -1,32 +1,36 @@
-import Link from "next/link";
 import Layout from "../components/Layout";
+import GlitchText from "../components/GlitchText";
 
 const AboutPage = () => (
-  <Layout title="About | Next.js + TypeScript Example">
-    <h1>About</h1>
-    <p>This is the about page for RJ's site</p>
+  <Layout title="About | RJ's Site">
+    <div style={{ fontSize: "28px" }}>
+      <GlitchText text="About" />
+    </div>
+    <p>A proud American.</p>
     <p>
-      For now you can take a look at{" "}
-      <a
-        href="https://www.linkedin.com/in/therileyjohnson/"
-        target="_blank"
-        rel="noreferrer"
-      >
-        my linkedin
-      </a>
-      .
+      My life is almost entirely on rails. It is truly an underrated lifestyle.
     </p>
     <p>
-      I'm still working on the site actively, don't have a good mold yet. This
-      page will be updated last. It will be updated as I need to force pushes
-      for my CD system to update. This number "2" will be incremented to that
-      end.
+      Time is split equally (though admittedly some days are less equal than
+      others) between programming, listening to esoteric music, working out, and
+      spending time with the people I love.
     </p>
     <p>
-      <Link href="/">
-        <a>Go home</a>
-      </Link>
+      I believe that though life is finite, that isn't an excuse to indulge in
+      corrosive habits, but rather to grow yourself to fully take advantage of
+      what little time we have.
     </p>
+    <div style={{ fontSize: "28px" }}>
+      <GlitchText text="About You" />
+    </div>
+    <p>
+      As you sit here and read this, I want to think about what your purpose in
+      life is. Not in a metaphysical way, merely what makes your life worth
+      living (by your own standards). If you can't find your purpose, I hope you
+      find it. If you know your purpose, I hope you are living your live in a
+      way which manifests that purpose.
+    </p>
+    <p>Stay strong in these trying times. May god be with you.</p>
   </Layout>
 );
 

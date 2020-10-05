@@ -1,9 +1,6 @@
-// import Link from "next/link";
 import Layout from "../components/Layout";
+import GlitchText from "../components/GlitchText";
 import { Theme, makeStyles, Paper, Card } from "@material-ui/core";
-
-// import { Canvas, useFrame } from "react-three-fiber";
-// import { useRef, useState, Props } from "react";
 
 import classNames from "classnames";
 
@@ -34,12 +31,12 @@ const useMarqueeStyles = (offset: number) =>
       width: "100%",
     },
     chyronItem: {
-      whiteSpace: "nowrap",
-      width: "fit-content",
-
-      animationDuration: "45s",
+      animationDuration: "120s",
       animationIterationCount: "infinite",
       animationTimingFunction: "linear",
+      whiteSpace: "nowrap",
+      width: "fit-content",
+      willChange: "auto",
 
       "&:hover": {
         animationPlayState: "paused",
@@ -97,10 +94,13 @@ const useOfferingsContainerStyles = makeStyles((theme: Theme) => ({
 }));
 
 interface IOfferingsContainerProps {
+  children: React.ReactNode;
   title: string;
 }
 
-const OfferingsCard: React.FC<IOfferingsContainerProps> = (props) => {
+const OfferingsCard: React.FC<IOfferingsContainerProps> = (
+  props: IOfferingsContainerProps
+) => {
   const styles = useOfferingsContainerStyles();
 
   return (
@@ -170,19 +170,22 @@ const IndexPage = () => {
       <div className={styles.headerContainer}>
         <Paper className={styles.header} elevation={12}>
           <div>Welcome to</div>
-          <div>RJ's Site</div>
+          <GlitchText text="RJ's Site" />
         </Paper>
         <div className={styles.animationContainer}>
+          {/* eslint-disable-next-line prefer-spread */}
           {Array.apply(null, Array(10)).map((_, index) => (
             <Chyron key={index} index={index} />
           ))}
         </div>
       </div>
-      <div className={styles.offeringsWrapper}>
+      {/* <div className={styles.offeringsWrapper}>
         <div className={styles.offeringsContainer}>
+          {/ eslint-disable-next-line prefer-spread /}
           {Array.apply(null, Array(10)).map((_, index) => (
             <OfferingsCard key={index} title={`Test${index}`}>
               <div>
+                {/ eslint-disable-next-line prefer-spread /}
                 {Array.apply(null, Array(10)).map((_, index) => (
                   <div key={index}>test {index}</div>
                 ))}
@@ -190,7 +193,7 @@ const IndexPage = () => {
             </OfferingsCard>
           ))}
         </div>
-      </div>
+      </div> */}
     </Layout>
   );
 };
