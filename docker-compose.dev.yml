@@ -12,13 +12,20 @@ x-hong-kong:
 services:
   rj-site:
     restart: always
-    build: front-end
+    build:
+      context: ./front-end
+      dockerfile: dev.dockerfile
     env_file:
       - dev.env
     ports:
       - 9910:80
     networks:
       - rjnet
+    volumes:
+      - ./front-end/pages:/app/pages
+      - ./front-end/public:/app/public
+      - ./front-end/components:/app/components
+      - ./front-end/typings:/app/typings
   rj-site-back-end:
     restart: always
     build: back-end

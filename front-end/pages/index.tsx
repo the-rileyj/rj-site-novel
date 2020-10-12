@@ -122,6 +122,7 @@ const useIndexStyles = makeStyles((theme: Theme) => ({
     fontSize: "5rem",
     height: "calc(100vh - 5rem)",
     justifyContent: "center",
+    overflow: "hidden",
     position: "relative",
     width: "100%",
     zIndex: 0,

@@ -6,6 +6,7 @@ RUN npm ci
 
 COPY ./components ./components
 COPY ./pages ./pages
+COPY ./typings ./typings
 
 COPY *.ts .
 COPY tsconfig.json ./

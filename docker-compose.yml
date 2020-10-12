@@ -39,6 +39,9 @@ services:
     environment:
       url: https://therileyjohnson.com/cms/
       database__client: mysql
+      # This is bad practice, however, I'm not storing any sensitive info
+      # and the container is walled off (only accessible on docker's internal NAT)
+      # so an executive decision was made to trade complexity for config
       database__connection__host: ghost-db
       database__connection__user: root
       database__connection__password: MyStrongPassword

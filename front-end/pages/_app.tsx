@@ -1,11 +1,16 @@
 import React from "react";
 
+import "./styling/blog.css";
+
 import { AppProps } from "next/app";
 import Head from "next/head";
 
 import CssBaseline from "@material-ui/core/CssBaseline";
 
-import { ThemeContextProvider } from "../components/Theme/ThemeContext";
+import {
+  AppTheme,
+  ThemeContextProvider,
+} from "../components/Theme/ThemeContext";
 
 const app = ({ Component, pageProps }: AppProps) => {
   React.useEffect(() => {
@@ -24,6 +29,19 @@ const app = ({ Component, pageProps }: AppProps) => {
           name="viewport"
           content="minimum-scale=1, initial-scale=1, width=device-width"
         />
+        <style>
+          {`:root {
+            --color-primary-main: ${AppTheme.palette.primary.main};
+            --color-primary-dark: ${AppTheme.palette.primary.dark};
+            --color-primary-light: ${AppTheme.palette.primary.light};
+            --color-secondary-main: ${AppTheme.palette.secondary.main};
+            --color-secondary-dark: ${AppTheme.palette.secondary.dark};
+            --color-secondary-light: ${AppTheme.palette.secondary.light};
+            --color-background-default: ${AppTheme.palette.background.default};
+            --color-background-paper: ${AppTheme.palette.background.paper};
+            --color-grey: ${AppTheme.palette.grey};
+          `}
+        </style>
       </Head>
       <ThemeContextProvider>
         <CssBaseline />
