@@ -5,6 +5,7 @@ import { getPosts, getSinglePost } from "../api/ghost/posts";
 import Layout from "../../components/Layout";
 
 import { PostOrPage } from "@tryghost/content-api";
+import HorizonalResizableContainer from "../../components/HorizontalResizableContainer";
 
 interface Props {
   post: PostOrPage | null;
@@ -28,7 +29,9 @@ const Post = ({ err, post }: Props) => {
 
   return (
     <Layout title={`${post.title} | RJ's Site`}>
-      <div dangerouslySetInnerHTML={{ __html: String(post.html) }} />
+      <HorizonalResizableContainer defaultWidth={66} minWidth={33}>
+        <div style={{ width: "100%", }} dangerouslySetInnerHTML={{ __html: String(post.html) }} />
+      </HorizonalResizableContainer>
     </Layout>
   );
 };
