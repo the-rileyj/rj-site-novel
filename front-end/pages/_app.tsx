@@ -1,6 +1,7 @@
 import React from "react";
 
-import "./styling/blog.css";
+import "./styling/global.scss";
+import "./styling/blog.scss";
 
 import { AppProps } from "next/app";
 import Head from "next/head";
@@ -39,7 +40,7 @@ const app = ({ Component, pageProps }: AppProps) => {
             --color-secondary-light: ${AppTheme.palette.secondary.light};
             --color-background-default: ${AppTheme.palette.background.default};
             --color-background-paper: ${AppTheme.palette.background.paper};
-            --color-grey: ${AppTheme.palette.grey};
+            --color-grey: ${AppTheme.palette.grey[800]};
           `}
         </style>
       </Head>

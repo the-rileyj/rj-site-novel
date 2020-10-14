@@ -40,7 +40,7 @@ const useLayoutStyles = makeStyles((theme: Theme) => ({
     display: "grid",
     fontFamily: "Roboto",
     gridTemplateRows: "auto 1fr auto",
-    height: "100vh",
+    minHeight: "100vh",
     overflowY: "auto",
     width: "100%",
 
@@ -56,7 +56,7 @@ const useLayoutStyles = makeStyles((theme: Theme) => ({
       fontWeight: "bold",
     },
     "& a:hover": {
-      color: theme.palette.grey,
+      color: theme.palette.grey[800],
       fontWeight: "normal",
       WebkitTextStrokeWidth: "1px",
       WebkitTextStrokeColor: theme.palette.secondary.dark,
@@ -67,6 +67,7 @@ const useLayoutStyles = makeStyles((theme: Theme) => ({
     position: "sticky",
     top: 0,
     zIndex: 999,
+    width: "100%",
   },
 
   header: {
@@ -79,18 +80,21 @@ const useLayoutStyles = makeStyles((theme: Theme) => ({
     padding: ".75rem",
     paddingBottom: "1rem",
     paddingTop: "1rem",
+    width: "100%",
 
     ...linkStyles(theme),
   },
 
   content: {
     height: "100%",
+    width: "100%",
   },
 
   footer: {
     borderTop: `solid 3px ${theme.palette.secondary.main}`,
     backgroundColor: theme.palette.primary.main,
     padding: "3rem 1.5rem 3rem 1.5rem",
+    width: "100%",
   },
 
   footerContainer: {
@@ -98,6 +102,7 @@ const useLayoutStyles = makeStyles((theme: Theme) => ({
     gridColumnGap: "1rem",
     gridRowGap: "1.5rem",
     gridTemplateColumns: "repeat(auto-fit, minmax(20%, 1fr))",
+    width: "100%",
 
     ...linkStyles(theme),
   },

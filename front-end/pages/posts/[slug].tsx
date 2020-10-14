@@ -30,7 +30,11 @@ const Post = ({ err, post }: Props) => {
   return (
     <Layout title={`${post.title} | RJ's Site`}>
       <HorizonalResizableContainer defaultWidth={66} minWidth={33}>
-        <div style={{ width: "100%", }} dangerouslySetInnerHTML={{ __html: String(post.html) }} />
+        <div
+          id="blog-post"
+          style={{ width: "100%" }}
+          dangerouslySetInnerHTML={{ __html: String(post.html) }}
+        />
       </HorizonalResizableContainer>
     </Layout>
   );
