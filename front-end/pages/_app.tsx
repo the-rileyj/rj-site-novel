@@ -5,6 +5,7 @@ import "./styling/blog.scss";
 
 import { AppProps } from "next/app";
 import Head from "next/head";
+import Router from 'next/router'
 
 import CssBaseline from "@material-ui/core/CssBaseline";
 
@@ -12,6 +13,11 @@ import {
   AppTheme,
   ThemeContextProvider,
 } from "../components/Theme/ThemeContext";
+
+import googleAnalytics from '../util/googleAnalytics'
+
+// Track pageview when route is changed
+Router.events.on('routeChangeComplete', url => googleAnalytics.pageview(url))
 
 const app = ({ Component, pageProps }: AppProps) => {
   React.useEffect(() => {

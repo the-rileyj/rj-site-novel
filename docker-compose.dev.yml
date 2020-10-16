@@ -26,6 +26,7 @@ services:
       - ./front-end/public:/app/public
       - ./front-end/components:/app/components
       - ./front-end/typings:/app/typings
+      - ./front-end/util:/app/util
   rj-site-back-end:
     restart: always
     build: back-end

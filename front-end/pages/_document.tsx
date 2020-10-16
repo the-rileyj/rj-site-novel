@@ -3,6 +3,8 @@ import Document, { Html, Head, Main, NextScript } from "next/document";
 import { ServerStyleSheets } from "@material-ui/core/styles";
 import { AppTheme } from "../components/Theme/ThemeContext";
 
+import googleAnalytics from '../util/googleAnalytics'
+
 export default class MyDocument extends Document {
   render() {
     return (
@@ -17,6 +19,20 @@ export default class MyDocument extends Document {
           <link
             rel="stylesheet"
             href="https://fonts.googleapis.com/icon?family=Material+Icons"
+          />
+          <script async src={`https://www.googletagmanager.com/gtag/js?id=${googleAnalytics.GA_TRACKING_ID}`} />
+          <script
+            dangerouslySetInnerHTML={{
+              __html: `
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                gtag('js', new Date());
+
+                gtag('config', '${googleAnalytics.GA_TRACKING_ID}', {
+                  page_path: window.location.pathname,
+                });
+              `,
+            }}
           />
           <link rel="icon" type="image/x-icon" href="/favicon.ico" />
         </Head>
