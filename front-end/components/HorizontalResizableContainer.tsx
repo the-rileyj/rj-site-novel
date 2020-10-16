@@ -1,16 +1,7 @@
 import React, { ReactNode, useState } from "react";
-import Link from "next/link";
-import Head from "next/head";
 import { makeStyles, Theme } from "@material-ui/core";
 import { AppTheme } from "./Theme/ThemeContext";
 import { CSSProperties } from "@material-ui/core/styles/withStyles";
-
-const routes = [
-  { path: "/", text: "Home", footer: true, header: false },
-  { path: "/about", text: "About", footer: true, header: true },
-  { path: "/posts", text: "Blog", footer: true, header: true },
-  { path: "/contact", text: "Contact", footer: true, header: false },
-];
 
 type Props = {
   children?: ReactNode;
