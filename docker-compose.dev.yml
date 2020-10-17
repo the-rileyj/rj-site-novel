@@ -27,6 +27,7 @@ services:
       - ./front-end/components:/app/components
       - ./front-end/typings:/app/typings
       - ./front-end/util:/app/util
+
   rj-site-back-end:
     restart: always
     build: back-end
@@ -36,22 +37,12 @@ services:
       - 9912:80
     networks:
       - rjnet
-  ghost-db:
-    image: mysql:5.7
-    restart: always
-    environment:
-      MYSQL_ROOT_PASSWORD: MyStrongPassword
-    volumes:
-      - ./mysql:/var/lib/mysql
-    networks:
-      - rjnet
+
   ghost:
     image: ghost:latest
     restart: always
     ports:
       - 9911:2368
-    depends_on:
-      - ghost-db
     environment:
       url: http://localhost:9900/cms/
       database__client: mysql

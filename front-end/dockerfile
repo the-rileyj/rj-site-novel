@@ -9,7 +9,11 @@ COPY ./pages ./pages
 COPY ./typings ./typings
 COPY ./util ./util
 
-COPY *.ts .
+# Copy config
+COPY .*rc ./
+COPY *.ts ./
+COPY *.js ./
+COPY *.json ./
 COPY tsconfig.json ./
 
 RUN npm run build
@@ -20,6 +24,8 @@ WORKDIR /app
 
 COPY --from=Front-End-Builder /node_modules ./node_modules
 COPY --from=Front-End-Builder /.next ./.next
+
+# For npm shortcut commands
 COPY --from=Front-End-Builder /package.json ./
 
 EXPOSE 80

@@ -6,9 +6,12 @@ COPY package.json package-lock.json ./
 
 RUN npm ci
 
-COPY *.json ./
+# Copy config
+COPY .babelrc ./
 COPY *.ts ./
 COPY *.js ./
+COPY *.json ./
+COPY tsconfig.json ./
 
 EXPOSE 80
 

@@ -36,7 +36,7 @@ export default class MyDocument extends Document {
           />
           <link rel="icon" type="image/x-icon" href="/favicon.ico" />
         </Head>
-        <body>
+        <body className="line-numbers">
           <Main />
           <NextScript />
         </body>

@@ -40,7 +40,7 @@ services:
       url: https://therileyjohnson.com/cms/
       database__client: mysql
       # This is bad practice, however, I'm not storing any sensitive info
-      # and the container is walled off (only accessible on docker's internal NAT)
+      # and the container is walled off (only accessible on docker's internal network)
       # so an executive decision was made to trade complexity for config
       database__connection__host: ghost-db
       database__connection__user: root
@@ -50,6 +50,7 @@ services:
       - ./content:/var/lib/ghost/content
     networks:
       - rjnet
+
   ghost-db:
     image: mysql:5.7
     restart: always

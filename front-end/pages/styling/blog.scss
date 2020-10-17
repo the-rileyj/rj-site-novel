@@ -59,7 +59,17 @@
   // Code Blocks
 
   pre {
+    // Prevent page x-axis overflow when code
+    // content extends past page width
+    display: grid;
+
     background-color: var(--color-primary-dark);
-    overflow-x: scroll;
+    height: auto;
+    width: 100%;
+
+    > code {
+      // Needed on code element in tandem with 'display: grid' on parent
+      overflow-x: auto;
+    }
   }
 }

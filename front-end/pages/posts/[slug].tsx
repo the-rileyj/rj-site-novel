@@ -6,6 +6,8 @@ import Layout from "../../components/Layout";
 
 import { PostOrPage } from "@tryghost/content-api";
 import HorizonalResizableContainer from "../../components/HorizontalResizableContainer";
+import Prism from "prismjs";
+import { useEffect } from "react";
 
 interface Props {
   post: PostOrPage | null;
@@ -26,6 +28,12 @@ const Post = ({ err, post }: Props) => {
 
     return <div>Couldn't find post!</div>;
   }
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      Prism.highlightAll();
+    }
+  }, []);
 
   return (
     <Layout title={`${post.title} | RJ's Site`}>
