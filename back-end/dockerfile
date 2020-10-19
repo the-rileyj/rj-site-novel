@@ -27,7 +27,7 @@ COPY --from=Server-Builder /app/server /
 # Add HTTPS Certificates for making HTTP requests from the webserver
 COPY --from=Server-Builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
 
-EXPOSE 9999
+EXPOSE 80
 
 # Run program
 ENTRYPOINT ["/server"]

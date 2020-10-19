@@ -30,13 +30,18 @@ services:
 
   rj-site-back-end:
     restart: always
-    build: back-end
+    build:
+      context: ./back-end
+      dockerfile: dev.dockerfile
     env_file:
       - dev.env
     ports:
       - 9912:80
     networks:
       - rjnet
+    volumes:
+      - ./back-end/main:/app/main
+      - ./back-end/vendor:/app/vendor
 
   ghost:
     image: ghost:latest

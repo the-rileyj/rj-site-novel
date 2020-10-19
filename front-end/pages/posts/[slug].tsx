@@ -41,7 +41,9 @@ const Post = ({ err, post }: Props) => {
         <div
           id="blog-post"
           style={{ width: "100%" }}
-          dangerouslySetInnerHTML={{ __html: String(post.html) }}
+          dangerouslySetInnerHTML={{
+            __html: String(post.html),
+          }}
         />
       </HorizonalResizableContainer>
     </Layout>
