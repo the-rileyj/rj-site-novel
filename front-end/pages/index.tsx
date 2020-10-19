@@ -1,14 +1,19 @@
 import Layout from "../components/Layout";
 import GlitchText from "../components/GlitchText";
+
+import axios from "axios";
+
 import { Theme, makeStyles, Paper } from "@material-ui/core";
 
 import classNames from "classnames";
+import { useState, useEffect, ReactNode } from "react";
+import { GetStaticProps } from "next";
 
 const useMarqueeStyles = (offset: number) =>
   makeStyles((theme: Theme) => ({
     "@keyframes marqueeForward": {
       "0%": {
-        transform: `translateX(${100 + offset * 10}vw)`,
+        transform: `translateX(${100 + offset}vw)`,
       },
       "100%": {
         transform: "translateX(-100%)",
@@ -16,7 +21,7 @@ const useMarqueeStyles = (offset: number) =>
     },
     "@keyframes marqueeBackward": {
       "0%": {
-        transform: `translateX(calc(-100% + -${offset * 10}vw))`,
+        transform: `translateX(calc(-100% + -${offset}vw))`,
       },
       "100%": {
         transform: "translateX(100vw)",
@@ -51,29 +56,35 @@ const useMarqueeStyles = (offset: number) =>
   }));
 
 interface IChyronProps {
-  index: number;
+  children?: ReactNode;
+  leftToRight?: boolean;
+  percentageOffset?: number;
 }
 
-const Chyron: React.FC<IChyronProps> = (props: IChyronProps) => {
-  let styleIndex = props.index;
-
-  if (styleIndex >= 5) {
-    styleIndex = Math.abs(styleIndex - 9);
+const Chyron: React.FC<IChyronProps> = ({
+  children,
+  leftToRight,
+  percentageOffset,
+}: IChyronProps) => {
+  if (leftToRight === undefined) {
+    leftToRight = true;
   }
 
-  const styles = useMarqueeStyles(styleIndex)();
+  if (percentageOffset === undefined) {
+    percentageOffset = 0;
+  }
+
+  const styles = useMarqueeStyles(percentageOffset)();
 
   return (
     <div className={styles.chyronContainer}>
       <div
         className={classNames(
           styles.chyronItem,
-          props.index % 2 === 0 ? styles.chyronItemLtr : styles.chyronItemRtl
+          leftToRight ? styles.chyronItemLtr : styles.chyronItemRtl
         )}
       >
-        {props.index} Lorem ipsum dolor sit amet consectetur adipisicing elit.
-        Aliquid quis, officiis praesentium optio labore possimus, nisi quo, odit
-        aspernatur
+        {children}
       </div>
     </div>
   );
@@ -163,7 +174,11 @@ const useIndexStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
-const IndexPage = () => {
+interface Props {
+  serverMsg: string;
+}
+
+const IndexPage = ({ serverMsg }: Props) => {
   const styles = useIndexStyles();
 
   return (
@@ -176,10 +191,19 @@ const IndexPage = () => {
         <div className={styles.animationContainer}>
           {/* eslint-disable-next-line prefer-spread */}
           {Array.apply(null, Array(10)).map((_, index) => (
-            <Chyron key={index} index={index} />
+            <Chyron
+              key={index}
+              leftToRight={index % 2 === 0}
+              percentageOffset={(index >= 5 ? Math.abs(index - 9) : index) * 10}
+            >
+              {index} Lorem ipsum dolor sit amet consectetur adipisicing elit.
+              Aliquid quis, officiis praesentium optio labore possimus, nisi
+              quo, odit aspernatur
+            </Chyron>
           ))}
         </div>
       </div>
+      <div>{serverMsg}</div>
       {/* <div className={styles.offeringsWrapper}>
         <div className={styles.offeringsContainer}>
           {/ eslint-disable-next-line prefer-spread /}
@@ -197,6 +221,16 @@ const IndexPage = () => {
       </div> */}
     </Layout>
   );
+};
+
+export const getStaticProps: GetStaticProps<Props> = async () => {
+  try {
+    const resp = await axios.get<string>("http://rj-site-back-end/api");
+
+    return { props: { serverMsg: resp.data }, revalidate: 60 };
+  } catch (err) {
+    return { props: { serverMsg: "ERRRR" }, revalidate: 60 };
+  }
 };
 
 export default IndexPage;
