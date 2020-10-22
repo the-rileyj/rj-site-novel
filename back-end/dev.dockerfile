@@ -1,8 +1,13 @@
-FROM golang:1.12.5-alpine3.9
+FROM golang:1.13.15-alpine3.12 as watcher-builder
 
-RUN apk add git
-RUN apk add npm
-RUN npm i -g chokidar-cli@2.1.0
+WORKDIR /app
+
+COPY ./tooling .
+
+RUN go mod vendor
+RUN go build -mod vendor -o watcher .
+
+FROM golang:1.13.15-alpine3.12
 
 WORKDIR /app
 
@@ -12,4 +17,6 @@ COPY go.sum .
 RUN mkdir main
 RUN mkdir vendor
 
-ENTRYPOINT SHELL=sh chokidar "**/main/*.go" -p --verbose --initial -c "go run -mod vendor ./main"
+COPY --from=watcher-builder /app/watcher .
+
+ENTRYPOINT ["./watcher"]
