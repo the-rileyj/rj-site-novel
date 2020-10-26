@@ -9,6 +9,9 @@ import classNames from "classnames";
 import { useState, useEffect, ReactNode } from "react";
 import { GetStaticProps } from "next";
 
+import consumeApi from "../util/api/ApiInteractions";
+import { SoundCloudPlaylist } from "../util/api/ApiTypes";
+
 const useMarqueeStyles = (offset: number) =>
   makeStyles((theme: Theme) => ({
     "@keyframes marqueeForward": {
@@ -175,10 +178,10 @@ const useIndexStyles = makeStyles((theme: Theme) => ({
 }));
 
 interface Props {
-  serverMsg: string;
+  soundcloudPlaylist: SoundCloudPlaylist | null;
 }
 
-const IndexPage = ({ serverMsg }: Props) => {
+const IndexPage = ({ soundcloudPlaylist }: Props) => {
   const styles = useIndexStyles();
 
   return (
@@ -203,7 +206,23 @@ const IndexPage = ({ serverMsg }: Props) => {
           ))}
         </div>
       </div>
-      <div>{serverMsg}</div>
+      {/* <div>{JSON.stringify(soundcloudPlaylist)}</div> */}
+      {/* <div
+        style={{
+          backgroundColor: "black",
+          height: "100vh",
+          left: 0,
+          opacity: 0.5,
+          position: "fixed",
+          width: "100%",
+          top: 0,
+          zIndex: 1000,
+        }}
+      >
+        {soundcloudPlaylist?.tracks.map((track, index) => {
+          return <div key={index}>{track.title}</div>;
+        })}
+      </div> */}
       {/* <div className={styles.offeringsWrapper}>
         <div className={styles.offeringsContainer}>
           {/ eslint-disable-next-line prefer-spread /}
@@ -225,11 +244,15 @@ const IndexPage = ({ serverMsg }: Props) => {
 
 export const getStaticProps: GetStaticProps<Props> = async () => {
   try {
-    const resp = await axios.get<string>("http://rj-site-back-end/api");
+    // const resp = await axios.get<string>("http://rj-site-back-end/api/songs");
 
-    return { props: { serverMsg: resp.data }, revalidate: 60 };
+    const [responsePromise] = consumeApi.get<SoundCloudPlaylist>("/songs");
+
+    const response = await responsePromise;
+
+    return { props: { soundcloudPlaylist: response.data }, revalidate: 60 };
   } catch (err) {
-    return { props: { serverMsg: "ERRRR" }, revalidate: 60 };
+    return { props: { soundcloudPlaylist: null }, revalidate: 60 };
   }
 };
 

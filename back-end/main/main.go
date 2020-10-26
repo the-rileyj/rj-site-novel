@@ -341,7 +341,7 @@ func getUploadData(clientIDHandler *SoundCloudToken, workoutPlaylistTitle string
 	}
 
 	if workoutPlaylistCollection == nil {
-		return nil, errors.New("could not find workout playlist")
+		return nil, errors.New("could not find playlist")
 	}
 
 	playlistInfoResponse, err := getSoundCloudResponse(
@@ -378,68 +378,72 @@ func getUploadData(clientIDHandler *SoundCloudToken, workoutPlaylistTitle string
 		}
 	}
 
-	// Get song info
+	if len(fetchInfoForSongs) != 0 {
+		// Get missing songs info
 
-	var tracks []TrackElement
+		var tracks []TrackElement
 
-	start := 0
+		start := 0
+		endInfoSearch := false
 
-	for i := 10; i < len(fetchInfoForSongs); i += 10 {
-		if i > len(fetchInfoForSongs) {
-			i = len(fetchInfoForSongs)
+		for i := 10; !endInfoSearch; i += 10 {
+			if i > len(fetchInfoForSongs) {
+				i = len(fetchInfoForSongs)
 
+				endInfoSearch = true
+			}
+
+			tracksRequest, err := http.NewRequest(
+				http.MethodGet,
+				"https://api-v2.soundcloud.com/tracks?app_locale=en",
+				nil,
+			)
+
+			if err != nil {
+				return nil, err
+			}
+
+			urlQuery := tracksRequest.URL.Query()
+
+			urlQuery.Set("client_id", clientID)
+			urlQuery.Set("ids", strings.Join(fetchInfoForSongs[start:i], ","))
+
+			tracksRequest.URL.RawQuery = urlQuery.Encode()
+
+			tracksRequest.Header.Set("referer", "https://soundcloud.com/")
+
+			trackResponse, err := http.DefaultClient.Do(tracksRequest)
+
+			if err != nil {
+				panic(err)
+			}
+
+			responseBytes, err := ioutil.ReadAll(trackResponse.Body)
+
+			trackResponse.Body.Close()
+
+			trackResponse.Body = ioutil.NopCloser(bytes.NewBuffer(responseBytes))
+
+			if err != nil {
+				panic(err)
+			}
+
+			var reqTracks []TrackElement
+
+			err = json.NewDecoder(bytes.NewBuffer(responseBytes)).Decode(&reqTracks)
+
+			if err != nil {
+				return nil, err
+			}
+
+			tracks = append(tracks, reqTracks...)
+
+			start = i
 		}
 
-		tracksRequest, err := http.NewRequest(
-			http.MethodGet,
-			"https://api-v2.soundcloud.com/tracks?app_locale=en",
-			nil,
-		)
-
-		if err != nil {
-			return nil, err
+		for _, playlistTrack := range tracks {
+			soundCloudPlaylist.Tracks[trackIndexesMap[playlistTrack.ID]] = playlistTrack
 		}
-
-		urlQuery := tracksRequest.URL.Query()
-
-		urlQuery.Set("client_id", clientID)
-		urlQuery.Set("ids", strings.Join(fetchInfoForSongs[start:i], ","))
-
-		tracksRequest.URL.RawQuery = urlQuery.Encode()
-
-		tracksRequest.Header.Set("referer", "https://soundcloud.com/")
-
-		trackResponse, err := http.DefaultClient.Do(tracksRequest)
-
-		if err != nil {
-			panic(err)
-		}
-
-		responseBytes, err := ioutil.ReadAll(trackResponse.Body)
-
-		trackResponse.Body.Close()
-
-		trackResponse.Body = ioutil.NopCloser(bytes.NewBuffer(responseBytes))
-
-		if err != nil {
-			panic(err)
-		}
-
-		var reqTracks []TrackElement
-
-		err = json.NewDecoder(bytes.NewBuffer(responseBytes)).Decode(&reqTracks)
-
-		if err != nil {
-			return nil, err
-		}
-
-		tracks = append(tracks, reqTracks...)
-
-		start = i
-	}
-
-	for _, playlistTrack := range tracks {
-		soundCloudPlaylist.Tracks[trackIndexesMap[playlistTrack.ID]] = playlistTrack
 	}
 
 	return &soundCloudPlaylist, nil
