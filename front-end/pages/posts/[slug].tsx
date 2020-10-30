@@ -1,3 +1,5 @@
+import { useEffect } from "react";
+
 import { GetStaticProps, GetStaticPaths } from "next";
 import { useRouter } from "next/dist/client/router";
 
@@ -7,7 +9,7 @@ import Layout from "../../components/Layout";
 import { PostOrPage } from "@tryghost/content-api";
 import HorizonalResizableContainer from "../../components/HorizontalResizableContainer";
 import Prism from "prismjs";
-import { useEffect } from "react";
+import GlitchText from "../../components/GlitchText";
 
 interface Props {
   post: PostOrPage | null;
@@ -38,6 +40,11 @@ const Post = ({ err, post }: Props) => {
   return (
     <Layout title={`${post.title} | RJ's Site`}>
       <HorizonalResizableContainer defaultWidth={66} minWidth={33}>
+        <div style={{ display: "flex", justifyContent: "flex-start", width: "100%" }}>
+          <h1>
+            <GlitchText text={String(post.title)} />
+          </h1>
+        </div>
         <div
           id="blog-post"
           style={{ width: "100%" }}
