@@ -1,8 +1,6 @@
 import Layout from "../components/Layout";
 import GlitchText from "../components/GlitchText";
 
-import axios from "axios";
-
 import { Theme, makeStyles, Paper } from "@material-ui/core";
 
 import classNames from "classnames";
@@ -267,7 +265,6 @@ const TracksModal: React.FC<ITracksModalProps> = ({
   const styles = useTracksModalStyles();
 
   const trackContainerRef = useRef<HTMLDivElement>(null);
-  // const trackRef = useRef<any>(null);
 
   const trackRefMap = useRef<{
     [trackID: string]: React.MutableRefObject<any>;
@@ -480,19 +477,19 @@ const AppLanding: React.FC<IAppLandingProps> = ({
   );
 };
 
-const useIndexStyles = makeStyles((theme: Theme) => ({
-  offeringsWrapper: {
-    margin: "3rem 1rem 3rem 1rem",
-  },
-  offeringsContainer: {
-    display: "grid",
-    gridTemplateColumns: "repeat(auto-fit, minmax(25%, 1fr))",
-    gridColumnGap: "1rem",
-    gridRowGap: "1.5rem",
-    justifyContent: "center",
-    width: "100%",
-  },
-}));
+// const useIndexStyles = makeStyles(() => ({
+//   offeringsWrapper: {
+//     margin: "3rem 1rem 3rem 1rem",
+//   },
+//   offeringsContainer: {
+//     display: "grid",
+//     gridTemplateColumns: "repeat(auto-fit, minmax(25%, 1fr))",
+//     gridColumnGap: "1rem",
+//     gridRowGap: "1.5rem",
+//     justifyContent: "center",
+//     width: "100%",
+//   },
+// }));
 
 interface Props {
   soundcloudPlaylist: SoundCloudPlaylist | null;
