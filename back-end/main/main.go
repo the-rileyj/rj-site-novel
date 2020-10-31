@@ -569,8 +569,6 @@ func getSoundCloudResponse(method, url, clientID string, body io.Reader) (*http.
 
 	soundCloudRequest.URL.RawQuery = urlQuery.Encode()
 
-	//test
-
 	soundCloudRequest.Header.Set("referer", "https://soundcloud.com/")
 
 	return http.DefaultClient.Do(soundCloudRequest)

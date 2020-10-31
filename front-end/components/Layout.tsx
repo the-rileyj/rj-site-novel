@@ -28,8 +28,6 @@ const linkStyles = (theme: Theme) => ({
   "& a:hover": {
     color: theme.palette.secondary.dark,
     fontWeight: "bolder",
-    WebkitTextStrokeWidth: "1px",
-    WebkitTextStrokeColor: theme.palette.primary.main,
   },
 });
 
@@ -58,8 +56,6 @@ const useLayoutStyles = makeStyles((theme: Theme) => ({
     "& a:hover": {
       color: theme.palette.grey[800],
       fontWeight: "normal",
-      WebkitTextStrokeWidth: "1px",
-      WebkitTextStrokeColor: theme.palette.secondary.dark,
     },
   },
 

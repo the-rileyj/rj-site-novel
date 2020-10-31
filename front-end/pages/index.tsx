@@ -6,11 +6,12 @@ import axios from "axios";
 import { Theme, makeStyles, Paper } from "@material-ui/core";
 
 import classNames from "classnames";
-import { useState, useEffect, ReactNode } from "react";
+import { useState, useEffect, ReactNode, useRef, memo, createRef } from "react";
 import { GetStaticProps } from "next";
 
 import consumeApi from "../util/api/ApiInteractions";
-import { SoundCloudPlaylist } from "../util/api/ApiTypes";
+import { SoundCloudPlaylist, Track } from "../util/api/ApiTypes";
+import { AppTheme } from "../components/Theme/ThemeContext";
 
 const useMarqueeStyles = (offset: number) =>
   makeStyles((theme: Theme) => ({
@@ -34,6 +35,7 @@ const useMarqueeStyles = (offset: number) =>
     chyronContainer: {
       backgroundColor: theme.palette.grey[800],
       borderBottom: `3px solid ${theme.palette.secondary.main}`,
+      height: "100%",
       overflow: "hidden",
       position: "relative",
       width: "100%",
@@ -125,7 +127,7 @@ const Chyron: React.FC<IChyronProps> = ({
 //   );
 // };
 
-const useIndexStyles = makeStyles((theme: Theme) => ({
+const useHeaderChyronsStyles = makeStyles((theme: Theme) => ({
   headerContainer: {
     alignItems: "center",
     backgroundColor: theme.palette.grey[800],
@@ -164,6 +166,321 @@ const useIndexStyles = makeStyles((theme: Theme) => ({
     width: "100%",
     zIndex: 1,
   },
+  chyronWrapper: {
+    height: "100%",
+
+    "&:hover": {
+      cursor: "pointer",
+    },
+  },
+}));
+
+interface IHeaderChyronsProps {
+  chyronItems: string[];
+  onChyronClick: (index: number) => void;
+}
+
+const HeaderChyrons: React.FC<IHeaderChyronsProps> = ({
+  chyronItems,
+  onChyronClick,
+}: IHeaderChyronsProps) => {
+  const styles = useHeaderChyronsStyles();
+  return (
+    <div className={styles.headerContainer}>
+      <Paper className={styles.header} elevation={12}>
+        <div>Welcome to</div>
+        <GlitchText text="RJ's Site" />
+      </Paper>
+      <div className={styles.animationContainer}>
+        {chyronItems.map((chyronString, index) => (
+          <div
+            className={styles.chyronWrapper}
+            key={index}
+            onClick={() => onChyronClick(index)}
+          >
+            <Chyron
+              leftToRight={index % 2 === 0}
+              percentageOffset={(index >= 5 ? Math.abs(index - 9) : index) * 10}
+            >
+              {chyronString}
+            </Chyron>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+const useTracksModalStyles = makeStyles((theme: Theme) => ({
+  soundcloudTrackLinkNormal: {
+    backgroundColor: theme.palette.primary.main,
+
+    "& a:link": {
+      fontWeight: "bolder",
+    },
+    "& a:visited": {
+      fontWeight: "bold",
+    },
+  },
+
+  soundcloudTrackLinkSelected: {
+    backgroundColor: theme.palette.secondary.dark,
+    color: theme.palette.grey[800],
+
+    "& a:link": {
+      fontWeight: "bolder",
+      color: theme.palette.grey[800],
+    },
+    "& a:visited": {
+      fontWeight: "bold",
+      color: theme.palette.grey[800],
+    },
+  },
+
+  soundcloudTrackLinkWrapper: {
+    border: `3px solid ${theme.palette.secondary.main}`,
+    color: theme.palette.secondary.light,
+    transition: "background-color .5s, color 1s",
+
+    "&:hover": {
+      backgroundColor: theme.palette.secondary.light,
+
+      "& a": {
+        color: theme.palette.grey[800],
+        fontWeight: "normal",
+      },
+    },
+  },
+}));
+
+interface ITracksModalProps {
+  shownTrack: Track | null;
+  soundcloudTracks: Track[];
+  handleCloseModal: () => void;
+}
+
+const TracksModal: React.FC<ITracksModalProps> = ({
+  handleCloseModal,
+  shownTrack,
+  soundcloudTracks,
+}: ITracksModalProps) => {
+  const styles = useTracksModalStyles();
+
+  const trackContainerRef = useRef<HTMLDivElement>(null);
+  // const trackRef = useRef<any>(null);
+
+  const trackRefMap = useRef<{
+    [trackID: string]: React.MutableRefObject<any>;
+  }>(
+    (() => {
+      const tmpTrackRefMap: {
+        [trackID: string]: React.MutableRefObject<any>;
+      } = {};
+
+      soundcloudTracks.forEach(
+        (track) => (tmpTrackRefMap[track.id] = createRef<any>())
+      );
+
+      return tmpTrackRefMap;
+    })()
+  );
+
+  useEffect(() => {
+    if (!shownTrack) {
+      return;
+    }
+
+    const trackRef = trackRefMap.current[shownTrack.id];
+
+    if (!trackContainerRef.current || !trackRef.current) {
+      return;
+    }
+
+    trackContainerRef.current.scrollTo(-1, trackRef.current.offsetTop);
+  }, [shownTrack]);
+
+  return (
+    <div
+      style={{
+        alignItems: "center",
+        display: shownTrack ? "flex" : "none",
+        height: "100vh",
+        justifyContent: "center",
+        left: 0,
+        position: "fixed",
+        top: 0,
+        width: "100%",
+        zIndex: 1000,
+      }}
+    >
+      <Paper
+        elevation={12}
+        style={{
+          border: `3px solid ${AppTheme.palette.secondary.main}`,
+          height: "96vh",
+          overflowY: "auto",
+          position: "relative",
+          width: "96%",
+        }}
+        ref={trackContainerRef}
+      >
+        <div
+          style={{
+            backgroundColor: AppTheme.palette.background.default,
+            border: `3px solid ${AppTheme.palette.secondary.main}`,
+            position: "fixed",
+            right: ".25rem",
+            top: ".25rem",
+            zIndex: 1001,
+          }}
+          onClick={handleCloseModal}
+        >
+          X
+        </div>
+        <div
+          style={{
+            backgroundColor: AppTheme.palette.background.default,
+            fontSize: "20px",
+            padding: "1.5rem",
+            width: "100%",
+          }}
+        >
+          <div
+            style={{
+              display: "grid",
+              gridColumnGap: "1rem",
+              gridRowGap: "1.5rem",
+              gridTemplateColumns: "repeat(auto-fit, minmax(600px, 1fr))",
+            }}
+          >
+            {soundcloudTracks.map((track, index) => {
+              return (
+                <Paper
+                  key={index}
+                  className={`${styles.soundcloudTrackLinkWrapper} ${
+                    track.id === shownTrack?.id
+                      ? styles.soundcloudTrackLinkSelected
+                      : styles.soundcloudTrackLinkNormal
+                  }`}
+                  elevation={12}
+                  ref={trackRefMap.current[track.id]}
+                >
+                  <a
+                    href={`${track.permalink_url}?in=riley-johnson-734562913/sets/lovethemgunsounds`}
+                    style={{
+                      display: "flex",
+                      columnGap: "1rem",
+                      height: "calc(2rem + 100px)",
+                      padding: "1rem",
+                      width: "100%",
+                    }}
+                  >
+                    <div style={{ height: "100px", width: "100px" }}>
+                      {track.artwork_url ? (
+                        <img
+                          style={{ height: "100px", width: "100px" }}
+                          src={track.artwork_url}
+                        />
+                      ) : null}
+                    </div>
+                    <div
+                      style={{
+                        height: "100%",
+                        width: "100%",
+                      }}
+                    >
+                      <div
+                        style={{
+                          alignItems: "flex-end",
+                          display: "flex",
+                          flexDirection: "column",
+                          height: "100%",
+                          justifyContent: "space-around",
+                        }}
+                      >
+                        <div>{track.title}</div>
+                        <div>{track.user.username}</div>
+                      </div>
+                    </div>
+                  </a>
+                </Paper>
+              );
+            })}
+          </div>
+        </div>
+      </Paper>
+    </div>
+  );
+};
+
+// const useAppLandingStyles = makeStyles((theme: Theme) => ({}));
+
+interface IAppLandingProps {
+  soundcloudPlaylist: SoundCloudPlaylist | null;
+}
+
+const MemoHeaderChyrons = memo<IHeaderChyronsProps>(
+  (props) => <HeaderChyrons {...props} />,
+  () => true
+);
+
+const AppLanding: React.FC<IAppLandingProps> = ({
+  soundcloudPlaylist,
+}: IAppLandingProps) => {
+  // const styles = useAppLandingStyles();
+
+  const [shownTrack, setShownTrack] = useState<Track | null>(null);
+
+  const soundcloudTracks = soundcloudPlaylist?.tracks ?? [];
+
+  const randomIndexes = useRef(
+    (() => {
+      const usedIndexes: { [key: number]: boolean } = {};
+
+      // eslint-disable-next-line prefer-spread
+      return Array.apply(null, Array(10)).map(() => {
+        let randomIndex = Math.floor(
+          Math.random() * (soundcloudTracks.length - 1)
+        );
+
+        while (usedIndexes[randomIndex]) {
+          randomIndex = Math.floor(
+            Math.random() * (soundcloudTracks.length - 1)
+          );
+        }
+
+        usedIndexes[randomIndex] = true;
+
+        return randomIndex;
+      });
+    })()
+  );
+
+  const randomSongs = useRef(
+    randomIndexes.current.map(
+      (randomIndex) =>
+        `${soundcloudTracks[randomIndex].title} - ${soundcloudTracks[randomIndex].user.username}`
+    )
+  );
+
+  return (
+    <>
+      <MemoHeaderChyrons
+        chyronItems={randomSongs.current}
+        onChyronClick={(index: number) =>
+          setShownTrack(soundcloudTracks[randomIndexes.current[index]])
+        }
+      />
+      <TracksModal
+        handleCloseModal={() => setShownTrack(null)}
+        shownTrack={shownTrack}
+        soundcloudTracks={soundcloudTracks}
+      />
+    </>
+  );
+};
+
+const useIndexStyles = makeStyles((theme: Theme) => ({
   offeringsWrapper: {
     margin: "3rem 1rem 3rem 1rem",
   },
@@ -182,47 +499,12 @@ interface Props {
 }
 
 const IndexPage = ({ soundcloudPlaylist }: Props) => {
-  const styles = useIndexStyles();
+  // const styles = useIndexStyles();
 
   return (
     <Layout contentPadding={false}>
-      <div className={styles.headerContainer}>
-        <Paper className={styles.header} elevation={12}>
-          <div>Welcome to</div>
-          <GlitchText text="RJ's Site" />
-        </Paper>
-        <div className={styles.animationContainer}>
-          {/* eslint-disable-next-line prefer-spread */}
-          {Array.apply(null, Array(10)).map((_, index) => (
-            <Chyron
-              key={index}
-              leftToRight={index % 2 === 0}
-              percentageOffset={(index >= 5 ? Math.abs(index - 9) : index) * 10}
-            >
-              {index} Lorem ipsum dolor sit amet consectetur adipisicing elit.
-              Aliquid quis, officiis praesentium optio labore possimus, nisi
-              quo, odit aspernatur
-            </Chyron>
-          ))}
-        </div>
-      </div>
-      {/* <div>{JSON.stringify(soundcloudPlaylist)}</div> */}
-      {/* <div
-        style={{
-          backgroundColor: "black",
-          height: "100vh",
-          left: 0,
-          opacity: 0.5,
-          position: "fixed",
-          width: "100%",
-          top: 0,
-          zIndex: 1000,
-        }}
-      >
-        {soundcloudPlaylist?.tracks.map((track, index) => {
-          return <div key={index}>{track.title}</div>;
-        })}
-      </div> */}
+      <AppLanding soundcloudPlaylist={soundcloudPlaylist} />
+      {/* ) : null} */}
       {/* <div className={styles.offeringsWrapper}>
         <div className={styles.offeringsContainer}>
           {/ eslint-disable-next-line prefer-spread /}
