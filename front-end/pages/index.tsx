@@ -125,64 +125,73 @@ const Chyron: React.FC<IChyronProps> = ({
 //   );
 // };
 
-const useHeaderChyronsStyles = makeStyles((theme: Theme) => ({
-  headerContainer: {
-    alignItems: "center",
-    backgroundColor: theme.palette.grey[800],
-    borderBottom: theme.palette.secondary.main,
-    color: theme.palette.secondary.main,
-    display: "flex",
-    flexDirection: "column",
-    fontSize: "5rem",
-    height: "calc(100vh - 5rem)",
-    justifyContent: "center",
-    overflow: "hidden",
-    position: "relative",
-    width: "100%",
-    zIndex: 0,
-  },
-  header: {
-    alignItems: "center",
-    border: `3px solid ${theme.palette.secondary.main}`,
-    color: theme.palette.secondary.main,
-    display: "flex",
-    flexDirection: "column",
-    fontSize: "5rem",
-    justifyContent: "center",
-    padding: "1rem",
-    zIndex: 2,
-  },
-  animationContainer: {
-    display: "grid",
-    gridTemplateColumns: "1fr",
-    gridTemplateRows: "repeat(10, 1fr)",
-    fontSize: "calc(calc(100vh - 5rem) / 15)",
-    height: "100%",
-    left: 0,
-    position: "absolute",
-    top: 0,
-    width: "100%",
-    zIndex: 1,
-  },
-  chyronWrapper: {
-    height: "100%",
-
-    "&:hover": {
-      cursor: "pointer",
+const useHeaderChyronsStyles = (isClickAble: boolean) =>
+  makeStyles((theme: Theme) => ({
+    headerContainer: {
+      alignItems: "center",
+      backgroundColor: theme.palette.grey[800],
+      borderBottom: theme.palette.secondary.main,
+      color: theme.palette.secondary.main,
+      display: "flex",
+      flexDirection: "column",
+      fontSize: "5rem",
+      height: "calc(100vh - 5rem)",
+      justifyContent: "center",
+      overflow: "hidden",
+      position: "relative",
+      width: "100%",
+      zIndex: 0,
     },
-  },
-}));
+    header: {
+      alignItems: "center",
+      border: `3px solid ${theme.palette.secondary.main}`,
+      color: theme.palette.secondary.main,
+      display: "flex",
+      flexDirection: "column",
+      fontSize: "5rem",
+      justifyContent: "center",
+      padding: "1rem",
+      zIndex: 2,
+    },
+    animationContainer: {
+      display: "grid",
+      gridTemplateColumns: "1fr",
+      gridTemplateRows: "repeat(10, 1fr)",
+      fontSize: "calc(calc(100vh - 5rem) / 15)",
+      height: "100%",
+      left: 0,
+      position: "absolute",
+      top: 0,
+      width: "100%",
+      zIndex: 1,
+    },
+    chyronWrapper: {
+      height: "100%",
+
+      ...(isClickAble
+        ? {
+            "&:hover": {
+              cursor: "pointer",
+            },
+          }
+        : {}),
+    },
+  }));
 
 interface IHeaderChyronsProps {
   chyronItems: string[];
-  onChyronClick: (index: number) => void;
+  onChyronClick?: (index: number) => void;
 }
 
 const HeaderChyrons: React.FC<IHeaderChyronsProps> = ({
   chyronItems,
   onChyronClick,
 }: IHeaderChyronsProps) => {
-  const styles = useHeaderChyronsStyles();
+  const styles = useHeaderChyronsStyles(onChyronClick !== undefined)();
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const handleChyronClick = onChyronClick ?? ((_: number) => {});
+
   return (
     <div className={styles.headerContainer}>
       <Paper className={styles.header} elevation={12}>
@@ -194,7 +203,7 @@ const HeaderChyrons: React.FC<IHeaderChyronsProps> = ({
           <div
             className={styles.chyronWrapper}
             key={index}
-            onClick={() => onChyronClick(index)}
+            onClick={() => handleChyronClick(index)}
           >
             <Chyron
               leftToRight={index % 2 === 0}
@@ -428,7 +437,19 @@ const AppLanding: React.FC<IAppLandingProps> = ({
 
   const [shownTrack, setShownTrack] = useState<Track | null>(null);
 
-  const soundcloudTracks = soundcloudPlaylist?.tracks ?? [];
+  if (soundcloudPlaylist === null) {
+    return (
+      <MemoHeaderChyrons
+        // eslint-disable-next-line prefer-spread
+        chyronItems={Array.apply(null, Array(10)).map(
+          (_, index) =>
+            `${index} Lorem ipsum dolor sit amet consectetur adipisicing elit. Mollitia, vel.`
+        )}
+      />
+    );
+  }
+
+  const soundcloudTracks = soundcloudPlaylist.tracks;
 
   const randomIndexes = useRef(
     (() => {
@@ -529,7 +550,10 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
 
     const response = await responsePromise;
 
-    return { props: { soundcloudPlaylist: response.data }, revalidate: 60 };
+    return {
+      props: { soundcloudPlaylist: response.data ?? null },
+      revalidate: 60,
+    };
   } catch (err) {
     return { props: { soundcloudPlaylist: null }, revalidate: 60 };
   }

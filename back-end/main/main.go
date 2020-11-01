@@ -1,12 +1,12 @@
 package main
 
 import (
-	"bytes"
 	"encoding/json"
 	"errors"
 	"fmt"
 	"io"
 	"io/ioutil"
+	"log"
 	"net/http"
 	"regexp"
 	"strings"
@@ -387,7 +387,7 @@ func getUploadData(clientIDHandler *SoundCloudToken, workoutPlaylistTitle string
 		endInfoSearch := false
 
 		for i := 10; !endInfoSearch; i += 10 {
-			if i > len(fetchInfoForSongs) {
+			if i >= len(fetchInfoForSongs) {
 				i = len(fetchInfoForSongs)
 
 				endInfoSearch = true
@@ -422,7 +422,7 @@ func getUploadData(clientIDHandler *SoundCloudToken, workoutPlaylistTitle string
 
 			trackResponse.Body.Close()
 
-			trackResponse.Body = ioutil.NopCloser(bytes.NewBuffer(responseBytes))
+			// trackResponse.Body = ioutil.NopCloser(bytes.NewBuffer(responseBytes))
 
 			if err != nil {
 				panic(err)
@@ -430,7 +430,7 @@ func getUploadData(clientIDHandler *SoundCloudToken, workoutPlaylistTitle string
 
 			var reqTracks []TrackElement
 
-			err = json.NewDecoder(bytes.NewBuffer(responseBytes)).Decode(&reqTracks)
+			err = json.Unmarshal(responseBytes, &reqTracks)
 
 			if err != nil {
 				return nil, err
@@ -582,6 +582,8 @@ func main() {
 	soundcloudPlaylistHandler, err := newSoundCloudPlaylistHandler("NormieAppropriateGymMusic")
 
 	for err != nil {
+		log.Println(err)
+
 		time.Sleep(time.Second * 15)
 
 		soundcloudPlaylistHandler, err = newSoundCloudPlaylistHandler("NormieAppropriateGymMusic")

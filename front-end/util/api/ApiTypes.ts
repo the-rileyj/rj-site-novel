@@ -1,23 +1,23 @@
 export interface SoundCloudPlaylist {
-  artwork_url?: string | null;
+  artwork_url: string | null;
   created_at: string;
-  description?: string | null;
+  description: string | null;
   duration: number;
-  genre?: string | null;
+  genre: string | null;
   id: number;
   kind: string;
-  label_name?: string | null;
+  label_name: string | null;
   last_modified: string;
   likes_count: number;
   managed_by_feeds: boolean;
   permalink: string;
   permalink_url: string;
   public: boolean;
-  purchase_title?: string | null;
-  purchase_url?: string | null;
-  release_date?: string | null;
+  purchase_title: string | null;
+  purchase_url: string | null;
+  release_date: string | null;
   reposts_count: number;
-  secret_token?: string | null;
+  secret_token: string | null;
   tag_list: string;
   title: string;
   uri: string;
@@ -32,7 +32,7 @@ export interface SoundCloudPlaylist {
 }
 
 export interface Track {
-  artwork_url?: string;
+  artwork_url: string | null;
   comment_count: number;
   commentable: boolean;
   created_at: string;
@@ -52,7 +52,7 @@ export interface Track {
   permalink_url: string;
   playback_count: number;
   public: boolean;
-  publisher_metadata: PublisherMetadata;
+  // publisher_metadata: PublisherMetadata;
   purchase_title: null;
   purchase_url: null;
   release_date: null | string;
@@ -68,17 +68,17 @@ export interface Track {
 }
 
 export interface PublisherMetadata {
-  artist?: string;
+  artist: string | null;
   contains_music: boolean;
   id: number;
-  isrc?: string;
+  isrc: string | null;
   urn: string;
-  writer_composer?: string;
+  writer_composer: string | null;
 }
 
 export interface User {
   avatar_url: string;
-  city?: null | string;
+  city: string | null;
   first_name: string;
   full_name: string;
   id: number;
