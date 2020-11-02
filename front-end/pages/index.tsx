@@ -1,7 +1,7 @@
 import Layout from "../components/Layout";
 import GlitchText from "../components/GlitchText";
 
-import { Theme, makeStyles, Paper } from "@material-ui/core";
+import { Theme, makeStyles, Paper, Icon } from "@material-ui/core";
 
 import classNames from "classnames";
 import { useState, useEffect, ReactNode, useRef, memo, createRef } from "react";
@@ -334,14 +334,17 @@ const TracksModal: React.FC<ITracksModalProps> = ({
           style={{
             backgroundColor: AppTheme.palette.background.default,
             border: `3px solid ${AppTheme.palette.secondary.main}`,
+            cursor: "pointer",
+            height: "calc(1rem + 6px)",
             position: "fixed",
-            right: ".25rem",
-            top: ".25rem",
+            right: ".5rem",
+            top: ".5rem",
+            width: "calc(1rem + 6px)",
             zIndex: 1001,
           }}
           onClick={handleCloseModal}
         >
-          X
+          <Icon style={{ fontSize: "1rem" }}>clear</Icon>
         </div>
         <div
           style={{
