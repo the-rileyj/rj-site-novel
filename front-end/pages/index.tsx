@@ -10,6 +10,7 @@ import { GetStaticProps } from "next";
 import consumeApi from "../util/api/ApiInteractions";
 import { SoundCloudPlaylist, Track } from "../util/api/ApiTypes";
 import { AppTheme } from "../components/Theme/ThemeContext";
+import Resume from "../components/Resume/Resume";
 
 const useMarqueeStyles = (offset: number) =>
   makeStyles((theme: Theme) => ({
@@ -542,6 +543,7 @@ const IndexPage = ({ soundcloudPlaylist }: Props) => {
           ))}
         </div>
       </div> */}
+      <Resume />
     </Layout>
   );
 };
