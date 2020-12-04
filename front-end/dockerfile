@@ -25,6 +25,8 @@ WORKDIR /app
 COPY --from=Front-End-Builder /node_modules ./node_modules
 COPY --from=Front-End-Builder /.next ./.next
 
+COPY ./public ./public
+
 # For npm shortcut commands
 COPY --from=Front-End-Builder /package.json ./
 
