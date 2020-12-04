@@ -5,18 +5,18 @@ import { makeStyles } from "@material-ui/core";
 const useResumeStyles = (textFontSize: number) =>
   makeStyles(() => ({
     resumeContainer: {
-      alignContent: "center",
+      alignItems: "center",
       display: "flex",
       flexDirection: "column",
       fontFamily: "RJ-Roboto",
       height: "100vh",
       justifyContent: "center",
+      width: "100%",
     },
     resumeWrapper: {
       backgroundColor: "white",
       boxShadow: "5px 5px 5px black",
       height: 792,
-      margin: "auto",
       width: 612,
     },
     downloadWrapper: {
@@ -231,10 +231,12 @@ const Resume: React.FC = () => {
         >
           <div
             style={{
+              alignItems: "center",
+              display: "flex",
               height: 792,
+              justifyContent: "center",
               width: "100%",
               backgroundColor: "white",
-              margin: "auto",
             }}
           >
             <div
