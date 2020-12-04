@@ -1,9 +1,9 @@
 import React, { useRef } from "react";
 import { PDFExport } from "@progress/kendo-react-pdf";
-import { Theme, makeStyles } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core";
 
 const useResumeStyles = (textFontSize: number) =>
-  makeStyles((theme: Theme) => ({
+  makeStyles(() => ({
     resumeContainer: {
       alignContent: "center",
       display: "flex",
@@ -153,19 +153,20 @@ const programmingSkills: string[] = [
   "JavaScript (Angular, React, Vue, Node, Typescript)",
 ];
 
-interface IAwardAndExperience {
-  date: string;
-  title: string;
-}
+// interface IAwardAndExperience {
+//   date: string;
+//   title: string;
+// }
 
-const otherAwardsAndExperience: IAwardAndExperience[] = [
-  { date: "2017-2019", title: "DSU School Radio Tech Lead" },
-  { date: "2019", title: "Campus Student Leadership Award" },
-  { date: "2018-2019", title: "DSU Computer Club Officer" },
-  { date: "2018-2019", title: "DSU Programming Club Officer" },
-  { date: "2017-2018", title: "DSU Entrepreneurship Club President" },
-  { date: "2018-2019", title: "DSU Programming Club Officer" },
-];
+// const otherAwardsAndExperience: IAwardAndExperience[] = [
+//   { date: "2017-2019", title: "DSU School Radio Tech Lead" },
+//   { date: "2019", title: "Campus Student Leadership Award" },
+//   { date: "2018-2019", title: "DSU Computer Club Officer" },
+//   { date: "2018-2019", title: "DSU Programming Club Officer" },
+//   { date: "2017-2018", title: "DSU Entrepreneurship Club President" },
+//   { date: "2018-2019", title: "DSU Programming Club Officer" },
+// ];
+// force
 
 interface IVolunteerExperience {
   date: string;
