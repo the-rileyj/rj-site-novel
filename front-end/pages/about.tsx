@@ -30,7 +30,7 @@ const AboutPage = () => (
       find it. If you know your purpose, I hope you are living your live in a
       way which manifests that purpose.
     </p>
-    <p>Stay strong in these trying times. May god be with you.</p>
+    <p>Stay strong in these trying times. May God be with you.</p>
   </Layout>
 );
 

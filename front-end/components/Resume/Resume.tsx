@@ -1,16 +1,16 @@
 import React, { useRef } from "react";
 import { PDFExport } from "@progress/kendo-react-pdf";
-import { makeStyles } from "@material-ui/core";
+import { makeStyles, Button, Theme } from "@material-ui/core";
 
 const useResumeStyles = (textFontSize: number) =>
-  makeStyles(() => ({
+  makeStyles((theme: Theme) => ({
     resumeContainer: {
       alignItems: "center",
       display: "flex",
       flexDirection: "column",
       fontFamily: "RJ-Roboto",
       height: "100vh",
-      justifyContent: "center",
+      justifyContent: "space-around",
       width: "100%",
     },
     resumeWrapper: {
@@ -25,6 +25,14 @@ const useResumeStyles = (textFontSize: number) =>
       display: "flex",
       justifyContent: "center",
       width: "100%",
+    },
+    downloadButton: {
+      backgroundColor: theme.palette.primary.dark,
+      border: `solid ${theme.palette.secondary.light} 3px`,
+      columnGap: "100px",
+      "&:hover": {
+        backgroundColor: theme.palette.primary.light,
+      },
     },
     skillRows: {
       display: "grid",
@@ -769,9 +777,9 @@ const Resume: React.FC = () => {
         </PDFExport>
       </div>
       <div className={styles.downloadWrapper}>
-        <button onClick={exportPDF} style={{ margin: "1rem" }}>
+        <Button onClick={exportPDF} className={styles.downloadButton}>
           Download
-        </button>
+        </Button>
       </div>
     </div>
   );
