@@ -2,15 +2,35 @@ import React, { useRef } from "react";
 import { PDFExport } from "@progress/kendo-react-pdf";
 import { makeStyles, Button, Theme } from "@material-ui/core";
 
-const useResumeStyles = (textFontSize: number) =>
+const useResumeStyles = (textFontSize: number, textUnit: string) =>
   makeStyles((theme: Theme) => ({
-    resumeContainer: {
+    resumeDownloadContainer: {
       alignItems: "center",
+      backgroundColor: theme.palette.background.default,
+      borderBottom: `solid 1px ${theme.palette.background.default}`,
       display: "flex",
       flexDirection: "column",
       fontFamily: "RJ-Roboto",
       height: "100vh",
       justifyContent: "space-around",
+      overflowX: "hidden",
+      overflowY: "hidden",
+      width: "100%",
+    },
+    resumeContainer: {
+      display: "flex",
+      height: "100%",
+      justifyContent: "center",
+      position: "relative",
+      width: "100%",
+    },
+    resumeWrapperWrapper: {
+      alignItems: "center",
+      display: "flex",
+      justifyContent: "center",
+      position: "absolute",
+      height: "100%",
+      top: "1rem",
       width: "100%",
     },
     resumeWrapper: {
@@ -21,14 +41,17 @@ const useResumeStyles = (textFontSize: number) =>
     },
     downloadWrapper: {
       alignItems: "center",
+      bottom: "1rem",
       boxSizing: "border-box",
       display: "flex",
       justifyContent: "center",
+      position: "absolute",
       width: "100%",
     },
     downloadButton: {
       backgroundColor: theme.palette.primary.dark,
       border: `solid ${theme.palette.secondary.light} 3px`,
+      boxShadow: "2.5px 2.5px 2.5px black",
       columnGap: "100px",
       "&:hover": {
         backgroundColor: theme.palette.primary.light,
@@ -36,7 +59,7 @@ const useResumeStyles = (textFontSize: number) =>
     },
     skillRows: {
       display: "grid",
-      fontSize: `${textFontSize}px`,
+      fontSize: `${textFontSize}${textUnit}`,
       gridColumnGap: "9px",
       gridTemplateColumns: "1fr",
       gridTemplateRows: "auto",
@@ -219,7 +242,9 @@ const Resume: React.FC = () => {
   const subHeadingFontSize = 9;
   const textFontSize = 8;
 
-  const styles = useResumeStyles(textFontSize)();
+  const textUnit = "px";
+
+  const styles = useResumeStyles(textFontSize, textUnit)();
 
   const resume = useRef<PDFExport>(null);
 
@@ -228,430 +253,465 @@ const Resume: React.FC = () => {
   };
 
   return (
-    <div className={styles.resumeContainer}>
-      <div className={styles.resumeWrapper}>
-        <PDFExport
-          fileName="rjResume.pdf"
-          title="Riley Johnson's Resume"
-          subject=""
-          keywords=""
-          ref={resume}
-        >
-          <div
-            style={{
-              alignItems: "center",
-              display: "flex",
-              height: 792,
-              justifyContent: "center",
-              width: "100%",
-              backgroundColor: "white",
-            }}
-          >
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns: "1fr",
-                gridTemplateRows: "auto 1fr",
-                height: "100%",
-                width: "100%",
-              }}
+    <div className={styles.resumeDownloadContainer}>
+      <div className={styles.resumeContainer}>
+        <div className={styles.resumeWrapperWrapper}>
+          <div className={styles.resumeWrapper}>
+            <PDFExport
+              fileName="rjResume.pdf"
+              title="Riley Johnson's Resume"
+              subject=""
+              keywords=""
+              ref={resume}
             >
               <div
                 style={{
-                  backgroundColor: "#000",
-                  color: "#FFF",
+                  alignItems: "center",
                   display: "flex",
-                  flexDirection: "column",
-                  padding: "9px",
+                  height: "100%",
+                  justifyContent: "center",
                   width: "100%",
+                  backgroundColor: "white",
                 }}
               >
                 <div
-                  style={{ fontWeight: "bold", fontSize: `${nameFontSize}px` }}
-                >
-                  Riley Johnson
-                </div>
-                <div style={{ fontSize: `${headingFontSize}px` }}>
-                  Software Developer
-                </div>
-                <div
                   style={{
-                    display: "flex",
-                    justifyContent: "space-between",
+                    display: "grid",
+                    gridTemplateColumns: "1fr",
+                    gridTemplateRows: "auto 1fr",
+                    height: "100%",
                     width: "100%",
                   }}
                 >
                   <div
                     style={{
+                      backgroundColor: "#000",
+                      color: "#FFF",
                       display: "flex",
                       flexDirection: "column",
-                      width: "45%",
-                    }}
-                  >
-                    <div
-                      style={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                      }}
-                    >
-                      <div
-                        style={{
-                          fontWeight: "bold",
-                          fontSize: `${subHeadingFontSize}px`,
-                        }}
-                      >
-                        Email
-                      </div>
-                      <div style={{ fontSize: `${subHeadingFontSize}px` }}>
-                        rj@therileyjohnson.com
-                      </div>
-                    </div>
-                    <div
-                      style={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                      }}
-                    >
-                      <div
-                        style={{
-                          fontWeight: "bold",
-                          fontSize: `${subHeadingFontSize}px`,
-                        }}
-                      >
-                        Website
-                      </div>
-                      <div style={{ fontSize: `${subHeadingFontSize}px` }}>
-                        therileyjohnson.com
-                      </div>
-                    </div>
-                  </div>
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "column",
-                      width: "45%",
-                    }}
-                  >
-                    <div
-                      style={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                      }}
-                    >
-                      <div
-                        style={{
-                          fontWeight: "bold",
-                          fontSize: `${subHeadingFontSize}px`,
-                        }}
-                      >
-                        Github
-                      </div>
-                      <div style={{ fontSize: `${subHeadingFontSize}px` }}>
-                        github.com/the-rileyj
-                      </div>
-                    </div>
-                    <div
-                      style={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                      }}
-                    >
-                      <div
-                        style={{
-                          fontWeight: "bold",
-                          fontSize: `${subHeadingFontSize}px`,
-                        }}
-                      >
-                        LinkedIn
-                      </div>
-                      <div style={{ fontSize: `${subHeadingFontSize}px` }}>
-                        linkedin.com/in/therileyjohnson
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div
-                style={{
-                  alignContent: "space-between",
-                  display: "grid",
-                  gridRowGap: "3px",
-                  gridTemplateColumns: "1fr",
-                  gridTemplateRows: "auto auto auto auto auto auto",
-                  height: "100%",
-                  padding: "9px",
-                  width: "100%",
-                  color: "black",
-                }}
-              >
-                {/* Professional Summary */}
-                <div style={{ width: "100%" }}>
-                  <div
-                    style={{
-                      borderBottom: "solid #000 1px",
-                      fontSize: `${headingFontSize}px`,
-                      fontWeight: "bold",
-                      margin: `0 0 ${subHeadingFontSize / 3}px 0`,
-                    }}
-                  >
-                    Professional Summary
-                  </div>
-                  <div style={{ fontSize: `${textFontSize}px` }}>
-                    5.5+ years of professional experience in variety of software
-                    development areas such as (but not limited to) server
-                    automation, web scraping, full stack web development, and
-                    machine learning. Great working in teams and capable of
-                    excelling individually. Always working to apply
-                    communication and learning skills effectively to excel in
-                    every role.
-                  </div>
-                </div>
-                {/* Experience */}
-                <div style={{ width: "100%" }}>
-                  <div
-                    style={{
-                      borderBottom: "solid #000 1px",
-                      fontSize: `${headingFontSize}px`,
-                      fontWeight: "bold",
-                      margin: `0 0 ${subHeadingFontSize / 3}px 0`,
-                    }}
-                  >
-                    Experience
-                  </div>
-                  <div
-                    style={{
-                      display: "grid",
-                      gridColumnGap: "4px",
-                      gridTemplateColumns: "auto 1fr",
-                      gridTemplateRows: "auto auto auto",
-                      width: "100%",
-                    }}
-                  >
-                    {workExperience.map((workExperienceItem, index) => (
-                      <>
-                        <div
-                          style={{
-                            fontWeight: "bold",
-                            fontSize: `${subHeadingFontSize}px`,
-                            paddingTop: index !== 0 ? "6px" : undefined,
-                          }}
-                        >
-                          {workExperienceItem.date}
-                        </div>
-                        <div
-                          style={{
-                            fontWeight: "bold",
-                            fontSize: `${subHeadingFontSize}px`,
-                            paddingTop: index !== 0 ? "6px" : undefined,
-                          }}
-                        >
-                          {workExperienceItem.title}
-                        </div>
-                        <div
-                          style={{
-                            fontWeight: "bold",
-                            fontSize: `${textFontSize}px`,
-                          }}
-                        >
-                          {workExperienceItem.location}
-                        </div>
-                        <div
-                          style={{
-                            fontWeight: "bold",
-                            fontSize: `${textFontSize}px`,
-                            fontStyle: "italic",
-                          }}
-                        >
-                          {workExperienceItem.company}
-                        </div>
-                        <div />
-                        <div style={{ fontSize: `${textFontSize}px` }}>
-                          {workExperienceItem.description}
-                        </div>
-                      </>
-                    ))}
-                  </div>
-                </div>
-                {/* Education */}
-                <div style={{ width: "100%" }}>
-                  <div
-                    style={{
-                      borderBottom: "solid #000 1px",
-                      fontSize: `${headingFontSize}px`,
-                      fontWeight: "bold",
-                      margin: `0 0 ${subHeadingFontSize / 3}px 0`,
-                    }}
-                  >
-                    Education
-                  </div>
-                  <div
-                    style={{
-                      display: "grid",
-                      gridColumnGap: "9px",
-                      gridTemplateColumns: "auto 1fr",
-                      gridTemplateRows: "auto",
+                      padding: "9px",
                       width: "100%",
                     }}
                   >
                     <div
                       style={{
                         fontWeight: "bold",
-                        fontSize: `${subHeadingFontSize}px`,
+                        fontSize: `${nameFontSize}${textUnit}`,
                       }}
                     >
-                      8/2017 - 12/2019
+                      Riley Johnson
                     </div>
-                    <div style={{ fontSize: `${textFontSize}px` }}>
-                      B.S. in Computer Science from Dakota State University,
-                      Minor in Center of Excellence in Computer Information
-                      Systems
+                    <div style={{ fontSize: `${headingFontSize}${textUnit}` }}>
+                      Software Developer
                     </div>
-                  </div>
-                </div>
-                {/* Clearance */}
-                <div style={{ width: "100%" }}>
-                  <div
-                    style={{
-                      borderBottom: "solid #000 1px",
-                      fontSize: `${headingFontSize}px`,
-                      fontWeight: "bold",
-                      margin: `0 0 ${subHeadingFontSize / 3}px 0`,
-                    }}
-                  >
-                    Clearance
-                  </div>
-                  <div
-                    style={{
-                      display: "grid",
-                      gridColumnGap: "5px",
-                      gridTemplateColumns: "auto 1fr",
-                      gridTemplateRows: "auto",
-                      width: "100%",
-                    }}
-                  >
                     <div
                       style={{
-                        fontWeight: "bold",
-                        fontSize: `${subHeadingFontSize}px`,
+                        display: "flex",
+                        justifyContent: "space-between",
+                        width: "100%",
                       }}
                     >
-                      7/2019 - PRESENT
-                    </div>
-                    <div style={{ fontSize: `${textFontSize}px` }}>
-                      Secret Clearance
+                      <div
+                        style={{
+                          display: "flex",
+                          flexDirection: "column",
+                          width: "45%",
+                        }}
+                      >
+                        <div
+                          style={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                          }}
+                        >
+                          <div
+                            style={{
+                              fontWeight: "bold",
+                              fontSize: `${subHeadingFontSize}${textUnit}`,
+                            }}
+                          >
+                            Email
+                          </div>
+                          <div
+                            style={{
+                              fontSize: `${subHeadingFontSize}${textUnit}`,
+                            }}
+                          >
+                            rj@therileyjohnson.com
+                          </div>
+                        </div>
+                        <div
+                          style={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                          }}
+                        >
+                          <div
+                            style={{
+                              fontWeight: "bold",
+                              fontSize: `${subHeadingFontSize}${textUnit}`,
+                            }}
+                          >
+                            Website
+                          </div>
+                          <div
+                            style={{
+                              fontSize: `${subHeadingFontSize}${textUnit}`,
+                            }}
+                          >
+                            therileyjohnson.com
+                          </div>
+                        </div>
+                      </div>
+                      <div
+                        style={{
+                          display: "flex",
+                          flexDirection: "column",
+                          width: "45%",
+                        }}
+                      >
+                        <div
+                          style={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                          }}
+                        >
+                          <div
+                            style={{
+                              fontWeight: "bold",
+                              fontSize: `${subHeadingFontSize}${textUnit}`,
+                            }}
+                          >
+                            Github
+                          </div>
+                          <div
+                            style={{
+                              fontSize: `${subHeadingFontSize}${textUnit}`,
+                            }}
+                          >
+                            github.com/the-rileyj
+                          </div>
+                        </div>
+                        <div
+                          style={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                          }}
+                        >
+                          <div
+                            style={{
+                              fontWeight: "bold",
+                              fontSize: `${subHeadingFontSize}${textUnit}`,
+                            }}
+                          >
+                            LinkedIn
+                          </div>
+                          <div
+                            style={{
+                              fontSize: `${subHeadingFontSize}${textUnit}`,
+                            }}
+                          >
+                            linkedin.com/in/therileyjohnson
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
-                </div>
-                {/* Skills */}
-                <div style={{ width: "100%" }}>
                   <div
                     style={{
-                      borderBottom: "solid #000 1px",
-                      fontSize: `${headingFontSize}px`,
-                      fontWeight: "bold",
-                      margin: `0 0 1px 0`,
-                    }}
-                  >
-                    Skills
-                  </div>
-                  <div
-                    style={{
+                      alignContent: "space-between",
                       display: "grid",
-                      gridColumnGap: "9px",
-                      gridTemplateColumns: "auto auto auto 1fr",
+                      gridRowGap: "3px",
+                      gridTemplateColumns: "1fr",
+                      gridTemplateRows: "auto auto auto auto auto auto",
+                      height: "100%",
+                      padding: "9px",
                       width: "100%",
+                      color: "black",
                     }}
                   >
-                    <div style={{ display: "flex", flexDirection: "column" }}>
-                      <div>
-                        <span
-                          style={{
-                            borderBottom: "solid #000 1px",
-                            fontWeight: "bold",
-                            fontSize: `${subHeadingFontSize}px`,
-                          }}
-                        >
-                          Administrative
-                        </span>
+                    {/* Professional Summary */}
+                    <div style={{ width: "100%" }}>
+                      <div
+                        style={{
+                          borderBottom: "solid #000 1px",
+                          fontSize: `${headingFontSize}${textUnit}`,
+                          fontWeight: "bold",
+                          margin: `0 0 ${subHeadingFontSize / 3}${textUnit} 0`,
+                        }}
+                      >
+                        Professional Summary
                       </div>
-                      <div className={styles.skillRows}>
-                        {administrativeSkills.map((administrativeSkill) => (
-                          <div key={administrativeSkill}>
-                            {administrativeSkill}
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                    <div style={{ display: "flex", flexDirection: "column" }}>
-                      <div>
-                        <span
-                          style={{
-                            borderBottom: "solid #000 1px",
-                            fontWeight: "bold",
-                            fontSize: `${subHeadingFontSize}px`,
-                          }}
-                        >
-                          Infrastructural
-                        </span>
-                      </div>
-                      <div className={styles.skillRows}>
-                        {infrastructuralSkills.map((infrastructuralSkill) => (
-                          <div key={infrastructuralSkill}>
-                            {infrastructuralSkill}
-                          </div>
-                        ))}
+                      <div style={{ fontSize: `${textFontSize}${textUnit}` }}>
+                        5.5+ years of professional experience in variety of
+                        software development areas such as (but not limited to)
+                        server automation, web scraping, full stack web
+                        development, and machine learning. Great working in
+                        teams and capable of excelling individually. Always
+                        working to apply communication and learning skills
+                        effectively to excel in every role.
                       </div>
                     </div>
-                    <div style={{ display: "flex", flexDirection: "column" }}>
-                      <div>
-                        <span
-                          style={{
-                            borderBottom: "solid #000 1px",
-                            fontWeight: "bold",
-                            fontSize: `${subHeadingFontSize}px`,
-                          }}
-                        >
-                          Technical
-                        </span>
-                      </div>
-                      <div className={styles.skillRows}>
-                        {technicalSkills.map((technicalSkill) => (
-                          <div key={technicalSkill}>{technicalSkill}</div>
-                        ))}
-                      </div>
-                    </div>
-                    <div style={{ display: "flex", flexDirection: "column" }}>
-                      <div>
-                        <span
-                          style={{
-                            borderBottom: "solid #000 1px",
-                            fontWeight: "bold",
-                            fontSize: `${subHeadingFontSize}px`,
-                          }}
-                        >
-                          Programming
-                        </span>
+                    {/* Experience */}
+                    <div style={{ width: "100%" }}>
+                      <div
+                        style={{
+                          borderBottom: "solid #000 1px",
+                          fontSize: `${headingFontSize}${textUnit}`,
+                          fontWeight: "bold",
+                          margin: `0 0 ${subHeadingFontSize / 3}${textUnit} 0`,
+                        }}
+                      >
+                        Experience
                       </div>
                       <div
                         style={{
                           display: "grid",
-                          fontSize: `${textFontSize}px`,
-                          gridColumnGap: "7px",
-                          gridTemplateColumns:
-                            "repeat(auto-fit, minmax(75px, 1fr))",
+                          gridColumnGap: "4px",
+                          gridTemplateColumns: "auto 1fr",
+                          gridTemplateRows: "auto auto auto",
+                          width: "100%",
+                        }}
+                      >
+                        {workExperience.map((workExperienceItem, index) => (
+                          <>
+                            <div
+                              style={{
+                                fontWeight: "bold",
+                                fontSize: `${subHeadingFontSize}${textUnit}`,
+                                paddingTop: index !== 0 ? "6px" : undefined,
+                              }}
+                            >
+                              {workExperienceItem.date}
+                            </div>
+                            <div
+                              style={{
+                                fontWeight: "bold",
+                                fontSize: `${subHeadingFontSize}${textUnit}`,
+                                paddingTop: index !== 0 ? "6px" : undefined,
+                              }}
+                            >
+                              {workExperienceItem.title}
+                            </div>
+                            <div
+                              style={{
+                                fontWeight: "bold",
+                                fontSize: `${textFontSize}${textUnit}`,
+                              }}
+                            >
+                              {workExperienceItem.location}
+                            </div>
+                            <div
+                              style={{
+                                fontWeight: "bold",
+                                fontSize: `${textFontSize}${textUnit}`,
+                                fontStyle: "italic",
+                              }}
+                            >
+                              {workExperienceItem.company}
+                            </div>
+                            <div />
+                            <div
+                              style={{ fontSize: `${textFontSize}${textUnit}` }}
+                            >
+                              {workExperienceItem.description}
+                            </div>
+                          </>
+                        ))}
+                      </div>
+                    </div>
+                    {/* Education */}
+                    <div style={{ width: "100%" }}>
+                      <div
+                        style={{
+                          borderBottom: "solid #000 1px",
+                          fontSize: `${headingFontSize}${textUnit}`,
+                          fontWeight: "bold",
+                          margin: `0 0 ${subHeadingFontSize / 3}${textUnit} 0`,
+                        }}
+                      >
+                        Education
+                      </div>
+                      <div
+                        style={{
+                          display: "grid",
+                          gridColumnGap: "9px",
+                          gridTemplateColumns: "auto 1fr",
                           gridTemplateRows: "auto",
                           width: "100%",
                         }}
                       >
-                        {programmingSkills.map((programmingSkill) => (
-                          <div key={programmingSkill}>{programmingSkill}</div>
-                        ))}
+                        <div
+                          style={{
+                            fontWeight: "bold",
+                            fontSize: `${subHeadingFontSize}${textUnit}`,
+                          }}
+                        >
+                          8/2017 - 12/2019
+                        </div>
+                        <div style={{ fontSize: `${textFontSize}${textUnit}` }}>
+                          B.S. in Computer Science from Dakota State University,
+                          Minor in Center of Excellence in Computer Information
+                          Systems
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </div>
-                {/* Awards & Other Experience */}
-                {/* <div
+                    {/* Clearance */}
+                    <div style={{ width: "100%" }}>
+                      <div
+                        style={{
+                          borderBottom: "solid #000 1px",
+                          fontSize: `${headingFontSize}${textUnit}`,
+                          fontWeight: "bold",
+                          margin: `0 0 ${subHeadingFontSize / 3}${textUnit} 0`,
+                        }}
+                      >
+                        Clearance
+                      </div>
+                      <div
+                        style={{
+                          display: "grid",
+                          gridColumnGap: "5px",
+                          gridTemplateColumns: "auto 1fr",
+                          gridTemplateRows: "auto",
+                          width: "100%",
+                        }}
+                      >
+                        <div
+                          style={{
+                            fontWeight: "bold",
+                            fontSize: `${subHeadingFontSize}${textUnit}`,
+                          }}
+                        >
+                          7/2019 - PRESENT
+                        </div>
+                        <div style={{ fontSize: `${textFontSize}${textUnit}` }}>
+                          Secret Clearance
+                        </div>
+                      </div>
+                    </div>
+                    {/* Skills */}
+                    <div style={{ width: "100%" }}>
+                      <div
+                        style={{
+                          borderBottom: "solid #000 1px",
+                          fontSize: `${headingFontSize}${textUnit}`,
+                          fontWeight: "bold",
+                          margin: `0 0 1px 0`,
+                        }}
+                      >
+                        Skills
+                      </div>
+                      <div
+                        style={{
+                          display: "grid",
+                          gridColumnGap: "9px",
+                          gridTemplateColumns: "auto auto auto 1fr",
+                          width: "100%",
+                        }}
+                      >
+                        <div
+                          style={{ display: "flex", flexDirection: "column" }}
+                        >
+                          <div>
+                            <span
+                              style={{
+                                borderBottom: "solid #000 1px",
+                                fontWeight: "bold",
+                                fontSize: `${subHeadingFontSize}${textUnit}`,
+                              }}
+                            >
+                              Administrative
+                            </span>
+                          </div>
+                          <div className={styles.skillRows}>
+                            {administrativeSkills.map((administrativeSkill) => (
+                              <div key={administrativeSkill}>
+                                {administrativeSkill}
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                        <div
+                          style={{ display: "flex", flexDirection: "column" }}
+                        >
+                          <div>
+                            <span
+                              style={{
+                                borderBottom: "solid #000 1px",
+                                fontWeight: "bold",
+                                fontSize: `${subHeadingFontSize}${textUnit}`,
+                              }}
+                            >
+                              Infrastructural
+                            </span>
+                          </div>
+                          <div className={styles.skillRows}>
+                            {infrastructuralSkills.map(
+                              (infrastructuralSkill) => (
+                                <div key={infrastructuralSkill}>
+                                  {infrastructuralSkill}
+                                </div>
+                              )
+                            )}
+                          </div>
+                        </div>
+                        <div
+                          style={{ display: "flex", flexDirection: "column" }}
+                        >
+                          <div>
+                            <span
+                              style={{
+                                borderBottom: "solid #000 1px",
+                                fontWeight: "bold",
+                                fontSize: `${subHeadingFontSize}${textUnit}`,
+                              }}
+                            >
+                              Technical
+                            </span>
+                          </div>
+                          <div className={styles.skillRows}>
+                            {technicalSkills.map((technicalSkill) => (
+                              <div key={technicalSkill}>{technicalSkill}</div>
+                            ))}
+                          </div>
+                        </div>
+                        <div
+                          style={{ display: "flex", flexDirection: "column" }}
+                        >
+                          <div>
+                            <span
+                              style={{
+                                borderBottom: "solid #000 1px",
+                                fontWeight: "bold",
+                                fontSize: `${subHeadingFontSize}${textUnit}`,
+                              }}
+                            >
+                              Programming
+                            </span>
+                          </div>
+                          <div
+                            style={{
+                              display: "grid",
+                              fontSize: `${textFontSize}${textUnit}`,
+                              gridColumnGap: "7px",
+                              gridTemplateColumns:
+                                "repeat(auto-fit, minmax(75px, 1fr))",
+                              gridTemplateRows: "auto",
+                              width: "100%",
+                            }}
+                          >
+                            {programmingSkills.map((programmingSkill) => (
+                              <div key={programmingSkill}>
+                                {programmingSkill}
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    {/* Awards & Other Experience */}
+                    {/* <div
                   style={{
                     display: "grid",
                     gridTemplateColumns: "1fr",
@@ -662,9 +722,9 @@ const Resume: React.FC = () => {
                   <div
                     style={{
                       borderBottom: "solid #000 1px",
-                      fontSize: `${headingFontSize}px`,
+                      fontSize: `${headingFontSize}${textUnit}`,
                       fontWeight: "bold",
-                      margin: `0 0 ${subHeadingFontSize / 3}px 0`,
+                      margin: `0 0 ${subHeadingFontSize / 3}${textUnit} 0`,
                     }}
                   >
                     Awards & Other Experience
@@ -688,7 +748,7 @@ const Resume: React.FC = () => {
                           <div
                             style={{
                               fontWeight: "bold",
-                              fontSize: `${textFontSize}px`,
+                              fontSize: `${textFontSize}${textUnit}`,
                               gridColumn:
                                 1 +
                                 2 *
@@ -702,7 +762,7 @@ const Resume: React.FC = () => {
                           </div>
                           <div
                             style={{
-                              fontSize: `${textFontSize}px`,
+                              fontSize: `${textFontSize}${textUnit}`,
                               gridColumn:
                                 2 +
                                 2 *
@@ -719,67 +779,75 @@ const Resume: React.FC = () => {
                     )}
                   </div>
                 </div> */}
-                {/* Volunteer Experience */}
-                <div
-                  style={{
-                    display: "grid",
-                    gridTemplateColumns: "1fr",
-                    gridTemplateRows: "auto 1fr",
-                    width: "100%",
-                  }}
-                >
-                  <div
-                    style={{
-                      borderBottom: "solid #000 1px",
-                      fontSize: `${headingFontSize}px`,
-                      fontWeight: "bold",
-                      margin: `0 0 ${subHeadingFontSize / 3}px 0`,
-                    }}
-                  >
-                    Volunteer Experience
-                  </div>
-                  <div
-                    style={{
-                      alignContent: "start",
-                      display: "grid",
-                      gridColumnGap: "9px",
-                      gridRowGap: "2.5px",
-                      gridTemplateColumns: "auto auto auto 1fr",
-                      width: "100%",
-                    }}
-                  >
-                    {volunteeringExperience.map((volunteerExperience) => (
-                      <>
-                        <div
-                          style={{
-                            fontWeight: "bold",
-                            fontSize: `${textFontSize}px`,
-                          }}
-                        >
-                          {volunteerExperience.date}
-                        </div>
-                        <div style={{ fontSize: `${textFontSize}px` }}>
-                          {volunteerExperience.organization}
-                        </div>
-                        <div style={{ fontSize: `${textFontSize}px` }}>
-                          {volunteerExperience.title}
-                        </div>
-                        <div style={{ fontSize: `${textFontSize}px` }}>
-                          {volunteerExperience.description}
-                        </div>
-                      </>
-                    ))}
+                    {/* Volunteer Experience */}
+                    <div
+                      style={{
+                        display: "grid",
+                        gridTemplateColumns: "1fr",
+                        gridTemplateRows: "auto 1fr",
+                        width: "100%",
+                      }}
+                    >
+                      <div
+                        style={{
+                          borderBottom: "solid #000 1px",
+                          fontSize: `${headingFontSize}${textUnit}`,
+                          fontWeight: "bold",
+                          margin: `0 0 ${subHeadingFontSize / 3}${textUnit} 0`,
+                        }}
+                      >
+                        Volunteer Experience
+                      </div>
+                      <div
+                        style={{
+                          alignContent: "start",
+                          display: "grid",
+                          gridColumnGap: "9px",
+                          gridRowGap: "2.5px",
+                          gridTemplateColumns: "auto auto auto 1fr",
+                          width: "100%",
+                        }}
+                      >
+                        {volunteeringExperience.map((volunteerExperience) => (
+                          <>
+                            <div
+                              style={{
+                                fontWeight: "bold",
+                                fontSize: `${textFontSize}${textUnit}`,
+                              }}
+                            >
+                              {volunteerExperience.date}
+                            </div>
+                            <div
+                              style={{ fontSize: `${textFontSize}${textUnit}` }}
+                            >
+                              {volunteerExperience.organization}
+                            </div>
+                            <div
+                              style={{ fontSize: `${textFontSize}${textUnit}` }}
+                            >
+                              {volunteerExperience.title}
+                            </div>
+                            <div
+                              style={{ fontSize: `${textFontSize}${textUnit}` }}
+                            >
+                              {volunteerExperience.description}
+                            </div>
+                          </>
+                        ))}
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
+            </PDFExport>
           </div>
-        </PDFExport>
-      </div>
-      <div className={styles.downloadWrapper}>
-        <Button onClick={exportPDF} className={styles.downloadButton}>
-          Download
-        </Button>
+        </div>
+        <div className={styles.downloadWrapper}>
+          <Button onClick={exportPDF} className={styles.downloadButton}>
+            Download Resume
+          </Button>
+        </div>
       </div>
     </div>
   );
@@ -813,52 +881,52 @@ const Resume: React.FC = () => {
 //                     <div style={{ height: 792, width: "100%", backgroundColor: 'white', margin: "auto" }}>
 //                         <div style={{ display: "grid", gridTemplateColumns: "1fr", gridTemplateRows: "auto 1fr", height: "100%", width: "100%" }}>
 //                             <div style={{ backgroundColor: "#000", color: "#FFF", display: "flex", flexDirection: "column", padding: "9px", width: "100%" }}>
-//                                 <div style={{ fontWeight: "bold", fontSize: `${nameFontSize}px` }}>
+//                                 <div style={{ fontWeight: "bold", fontSize: `${nameFontSize}vw` }}>
 //                                     Riley Johnson
 //                                 </div>
-//                                 <div style={{ fontSize: `${headingFontSize}px` }}>
+//                                 <div style={{ fontSize: `${headingFontSize}vw` }}>
 //                                     Software Developer
 //                                 </div>
 //                                 <div style={{ display: "flex", justifyContent: "space-between", width: "100%" }}>
 //                                     <div style={{ display: "flex", flexDirection: "column", width: "45%" }}>
 //                                         <div style={{ display: "flex", justifyContent: "space-between" }}>
-//                                             <div style={{ fontWeight: "bold", fontSize: `${subHeadingFontSize}px` }}>
+//                                             <div style={{ fontWeight: "bold", fontSize: `${subHeadingFontSize}vw` }}>
 //                                                 Email
 //                                             </div>
-//                                             <div style={{ fontSize: `${subHeadingFontSize}px` }}>
+//                                             <div style={{ fontSize: `${subHeadingFontSize}vw` }}>
 //                                                 rj@therileyjohnson.com
 //                                             </div>
 //                                         </div>
 //                                         <div style={{ display: "flex", justifyContent: "space-between" }}>
-//                                             <div style={{ fontWeight: "bold", fontSize: `${subHeadingFontSize}px` }}>
+//                                             <div style={{ fontWeight: "bold", fontSize: `${subHeadingFontSize}vw` }}>
 //                                                 Website
 //                                             </div>
-//                                             <div style={{ fontSize: `${subHeadingFontSize}px` }}>
+//                                             <div style={{ fontSize: `${subHeadingFontSize}vw` }}>
 //                                                 therileyjohnson.com
 //                                             </div>
 //                                         </div>
 //                                     </div>
 //                                     <div style={{ display: "flex", flexDirection: "column", width: "45%" }}>
 //                                         <div style={{ display: "flex", justifyContent: "space-between" }}>
-//                                             <div style={{ fontWeight: "bold", fontSize: `${subHeadingFontSize}px` }}>
+//                                             <div style={{ fontWeight: "bold", fontSize: `${subHeadingFontSize}vw` }}>
 //                                                 Github
 //                                         </div>
-//                                             <div style={{ fontSize: `${subHeadingFontSize}px` }}>
+//                                             <div style={{ fontSize: `${subHeadingFontSize}vw` }}>
 //                                                 github.com/the-rileyj
 //                                             </div>
 //                                         </div>
 //                                         <div style={{ display: "flex", justifyContent: "space-between" }}>
-//                                             <div style={{ fontWeight: "bold", fontSize: `${subHeadingFontSize}px` }}>
+//                                             <div style={{ fontWeight: "bold", fontSize: `${subHeadingFontSize}vw` }}>
 //                                                 LinkedIn
 //                                             </div>
-//                                             <div style={{ fontSize: `${subHeadingFontSize}px` }}>
+//                                             <div style={{ fontSize: `${subHeadingFontSize}vw` }}>
 //                                                 linkedin.com/in/therileyjohnson
 //                                             </div>
 //                                         </div>
 //                                     </div>
 //                                 </div>
 //                             </div>
-//                             <div style={{ alignContent: "center", alignItems: "center", display: "grid", gridTemplateColumns: "1fr", fontSize: `${headingFontSize}px`, height: "100%", justifyContent: "", padding: "9px", width: "100%" }}>
+//                             <div style={{ alignContent: "center", alignItems: "center", display: "grid", gridTemplateColumns: "1fr", fontSize: `${headingFontSize}vw`, height: "100%", justifyContent: "", padding: "9px", width: "100%" }}>
 //                                 {/* Professional Summary */}
 //                                 <div style={{ marginBottom: "1rem" }}>
 //                                     To Whom it May Concern,

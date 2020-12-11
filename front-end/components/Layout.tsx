@@ -91,6 +91,7 @@ const useLayoutStyles = makeStyles((theme: Theme) => ({
     backgroundColor: theme.palette.primary.main,
     padding: "3rem 1.5rem 3rem 1.5rem",
     width: "100%",
+    zIndex: 998,
   },
 
   footerContainer: {

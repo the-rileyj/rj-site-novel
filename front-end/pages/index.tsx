@@ -196,7 +196,7 @@ const HeaderChyrons: React.FC<IHeaderChyronsProps> = ({
   return (
     <div className={styles.headerContainer}>
       <Paper className={styles.header} elevation={12}>
-        <div>Welcome to</div>
+        <div style={{ textAlign: "center" }}>Welcome to</div>
         <GlitchText text="RJ's Site" />
       </Paper>
       <div className={styles.animationContainer}>
