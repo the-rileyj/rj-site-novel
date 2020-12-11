@@ -8,6 +8,7 @@ const useResumeStyles = (textFontSize: number, textUnit: string) =>
       alignItems: "center",
       backgroundColor: theme.palette.background.default,
       borderBottom: `solid 1px ${theme.palette.background.default}`,
+      borderTop: `solid 1px ${theme.palette.background.default}`,
       display: "flex",
       flexDirection: "column",
       fontFamily: "RJ-Roboto",
